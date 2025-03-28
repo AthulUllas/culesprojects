@@ -53,6 +53,26 @@ class Loginpage extends StatelessWidget {
               ),
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.only(top: 16.0),
+            child: InkWell(
+              onTap: () {},
+              child: Container(
+                height: 50,
+                width: 120,
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Center(
+                  child: Text(
+                    "SignIn",
+                    style: TextStyle(color: Colors.white, fontSize: 18),
+                  ),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );

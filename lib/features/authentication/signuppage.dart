@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class Loginpage extends StatelessWidget {
-  const Loginpage({super.key});
+class SignUpPage extends StatelessWidget {
+  const SignUpPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +50,26 @@ class Loginpage extends StatelessWidget {
                 hintText: "Password",
                 hintStyle: TextStyle(color: Colors.black),
                 contentPadding: EdgeInsets.only(left: 12),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 16.0),
+            child: InkWell(
+              onTap: () {},
+              child: Container(
+                height: 50,
+                width: 120,
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Center(
+                  child: Text(
+                    "SignUp",
+                    style: TextStyle(color: Colors.white, fontSize: 18),
+                  ),
+                ),
               ),
             ),
           ),
