@@ -1,4 +1,3 @@
-import 'package:culesprojects/features/authentication/authpage.dart';
 import 'package:culesprojects/features/authentication/loginpage.dart';
 import 'package:culesprojects/features/authentication/signuppage.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +19,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false, home: SignUpPage());
+    return MaterialApp(debugShowCheckedModeBanner: false, home: Loginpage());
   }
 }

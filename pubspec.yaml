@@ -37,6 +37,8 @@ dependencies:
   flutter_riverpod: ^2.6.1
   get_storage: ^2.1.1
   supabase_flutter: ^2.8.4
+  shared_preferences: ^2.5.3
+  flutter_hooks: ^0.21.2
 
 dev_dependencies:
   flutter_test:

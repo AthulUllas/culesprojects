@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SignUpPage extends StatelessWidget {
   const SignUpPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final signUpEmailController = TextEditingController();
+    final signUpPasswordController = TextEditingController();
+    final supaBase = Supabase.instance.client;
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 255, 62, 49),
       body: Column(
@@ -28,6 +32,7 @@ class SignUpPage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: TextField(
+                controller: signUpEmailController,
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   hintText: "E - mail",
@@ -45,6 +50,7 @@ class SignUpPage extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
             ),
             child: TextField(
+              controller: signUpPasswordController,
               decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: "Password",
@@ -56,7 +62,12 @@ class SignUpPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(top: 16.0),
             child: InkWell(
-              onTap: () {},
+              onTap: () async {
+                await supaBase.auth.signUp(
+                  email: signUpEmailController.text,
+                  password: signUpPasswordController.text.trim(),
+                );
+              },
               child: Container(
                 height: 50,
                 width: 120,

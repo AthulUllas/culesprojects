@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-class Loginpage extends StatelessWidget {
+class Loginpage extends HookWidget {
   const Loginpage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final isPasswordVisible = useState(false);
+    final emailController = useTextEditingController();
+    final passwordController = useTextEditingController();
+    final supaBase = Supabase.instance.client;
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 255, 62, 49),
       body: Column(
@@ -28,6 +34,7 @@ class Loginpage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: TextField(
+                controller: emailController,
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   hintText: "E - mail",
@@ -45,18 +52,35 @@ class Loginpage extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
             ),
             child: TextField(
+              controller: passwordController,
               decoration: InputDecoration(
+                suffixIcon: IconButton(
+                  onPressed: () {
+                    isPasswordVisible.value = !isPasswordVisible.value;
+                  },
+                  icon: Icon(
+                    isPasswordVisible.value
+                        ? Icons.visibility_off
+                        : Icons.visibility,
+                  ),
+                ),
                 border: InputBorder.none,
                 hintText: "Password",
                 hintStyle: TextStyle(color: Colors.black),
-                contentPadding: EdgeInsets.only(left: 12),
+                contentPadding: EdgeInsets.only(left: 12, top: 14),
               ),
+              obscureText: !isPasswordVisible.value,
             ),
           ),
           Padding(
             padding: const EdgeInsets.only(top: 16.0),
             child: InkWell(
-              onTap: () {},
+              onTap: () async {
+                await supaBase.auth.signInWithPassword(
+                  email: emailController.text,
+                  password: passwordController.text.trim(),
+                );
+              },
               child: Container(
                 height: 50,
                 width: 120,
