@@ -6,7 +6,7 @@ class Authpage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 255, 78, 65),
+      backgroundColor: const Color.fromARGB(255, 255, 62, 49),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

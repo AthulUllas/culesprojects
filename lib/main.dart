@@ -1,4 +1,5 @@
 import 'package:culesprojects/features/authentication/authpage.dart';
+import 'package:culesprojects/features/authentication/loginpage.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -18,6 +19,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false, home: Authpage());
+    return MaterialApp(debugShowCheckedModeBanner: false, home: Loginpage());
   }
 }

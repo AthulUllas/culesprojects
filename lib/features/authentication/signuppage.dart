@@ -11,7 +11,7 @@ class Loginpage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            "Sign In",
+            "Sign Up",
             style: TextStyle(
               color: Colors.white,
               fontSize: 28,
