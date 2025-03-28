@@ -5,7 +5,6 @@ class Homepage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List categories = ["Textiles", "Bakery", "Supermarkets"];
     return Scaffold(
       appBar: AppBar(
         title: Image.asset("assets/images/unicule logo.png", scale: 6),
@@ -20,7 +19,7 @@ class Homepage extends StatelessWidget {
             crossAxisSpacing: 10,
             mainAxisSpacing: 10,
           ),
-          itemCount: categories.length,
+          itemCount: 2,
           itemBuilder: (BuildContext context, int index) {
             return Container(
               decoration: BoxDecoration(
@@ -29,7 +28,7 @@ class Homepage extends StatelessWidget {
               ),
               child: Center(
                 child: Text(
-                  categories[index],
+                  "Hello",
                   style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
@@ -96,6 +95,25 @@ class Homepage extends StatelessWidget {
                                     contentPadding: EdgeInsets.only(left: 12),
                                   ),
                                 ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Colors.blue,
+                                border: Border.all(
+                                  color: Colors.black,
+                                  width: 0.2,
+                                ),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: IconButton(
+                                onPressed: () {},
+                                icon: Icon(Icons.done),
                               ),
                             ),
                           ],
