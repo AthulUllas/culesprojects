@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class SignUpPage extends StatelessWidget {
+class SignUpPage extends HookWidget {
   const SignUpPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final signUpEmailController = TextEditingController();
-    final signUpPasswordController = TextEditingController();
+    final isPasswordVisible = useState(false);
+    final signUpEmailController = useTextEditingController();
+    final signUpPasswordController = useTextEditingController();
     final supaBase = Supabase.instance.client;
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 255, 62, 49),
@@ -52,11 +54,22 @@ class SignUpPage extends StatelessWidget {
             child: TextField(
               controller: signUpPasswordController,
               decoration: InputDecoration(
+                suffixIcon: IconButton(
+                  onPressed: () {
+                    isPasswordVisible.value = !isPasswordVisible.value;
+                  },
+                  icon: Icon(
+                    isPasswordVisible.value
+                        ? Icons.visibility_off
+                        : Icons.visibility,
+                  ),
+                ),
                 border: InputBorder.none,
                 hintText: "Password",
                 hintStyle: TextStyle(color: Colors.black),
-                contentPadding: EdgeInsets.only(left: 12),
+                contentPadding: EdgeInsets.only(left: 12, top: 14),
               ),
+              obscureText: !isPasswordVisible.value,
             ),
           ),
           Padding(
