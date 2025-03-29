@@ -16,65 +16,73 @@ class Homepage extends ConsumerWidget {
         centerTitle: true,
         shape: Border(bottom: BorderSide(color: Colors.black, width: 0.1)),
       ),
-      body: SingleChildScrollView(
-        child: categoryList.when(
-          loading: () => Center(child: CircularProgressIndicator()),
-          error: (e, _) => Text("Error: $e"),
-          data:
-              (categoryList) =>
-                  categoryList.isEmpty
-                      ? Center(child: Text("No items"))
-                      : Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: GridView.builder(
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                crossAxisSpacing: 10,
-                                mainAxisSpacing: 10,
-                              ),
-                          itemCount: categoryList.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return InkWell(
-                              onTap: () {},
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  border: Border.all(
-                                    color: Colors.red,
-                                    width: 0.3,
-                                  ),
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      categoryList[index],
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 24.0),
-                                      child: IconButton(
-                                        onPressed: () {
-                                          categoryListNotifier.deleteItem(
-                                            categoryList[index],
-                                          );
-                                        },
-                                        icon: Icon(Icons.delete),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
+      body: categoryList.when(
+        loading: () => Center(child: CircularProgressIndicator()),
+        error: (e, _) => Text("Error: $e"),
+        data:
+            (categoryList) =>
+                categoryList.isEmpty
+                    ? Center(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 40.0),
+                        child: Text(
+                          "No items",
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
-        ),
+                    )
+                    : Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: GridView.builder(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 10,
+                        ),
+                        itemCount: categoryList.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return InkWell(
+                            onTap: () {},
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                border: Border.all(
+                                  color: Colors.red,
+                                  width: 0.3,
+                                ),
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    categoryList[index],
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 24.0),
+                                    child: IconButton(
+                                      onPressed: () {
+                                        categoryListNotifier.deleteItem(
+                                          categoryList[index],
+                                        );
+                                      },
+                                      icon: Icon(Icons.delete),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
