@@ -16,7 +16,7 @@ class Homepage extends ConsumerWidget {
         centerTitle: true,
         shape: Border(bottom: BorderSide(color: Colors.black, width: 0.1)),
       ),
-      body: Expanded(
+      body: SingleChildScrollView(
         child: categoryList.when(
           loading: () => Center(child: CircularProgressIndicator()),
           error: (e, _) => Text("Error: $e"),

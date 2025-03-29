@@ -107,7 +107,7 @@ class SignUpPage extends HookWidget {
                 } catch (e) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text(e.toString() ?? "Check your email"),
+                      content: Text(e.toString()),
                       duration: Duration(seconds: 2),
                     ),
                   );

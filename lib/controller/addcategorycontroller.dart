@@ -14,34 +14,33 @@ class ListNotifier extends StateNotifier<AsyncValue<List<String>>> {
   final _supabase = Supabase.instance.client;
   final String tableName = 'my_table';
 
-  // ✅ Load data from Supabase
   Future<void> loadData() async {
     state = const AsyncValue.loading();
     try {
       final response = await _supabase.from(tableName).select();
-      if (response.isNotEmpty) {
-        // Take the first row's values (since it's a single list)
+      if (response.isNotEmpty && response.first['values'] != null) {
         final List<String> values = List<String>.from(response.first['values']);
-        state = AsyncValue.data(values);
+        if (mounted) {
+          state = AsyncValue.data(values);
+        }
       } else {
-        state = const AsyncValue.data([]);
+        if (mounted) {
+          state = const AsyncValue.data([]);
+        }
       }
     } catch (e, stackTrace) {
       state = AsyncValue.error(e, stackTrace);
     }
   }
 
-  // ✅ Add a new item to the list
   Future<void> addItem(String newItem) async {
     try {
       final currentValues = state.value ?? [];
       final updatedValues = [...currentValues, newItem];
 
       if (currentValues.isEmpty) {
-        // Insert new row if the table is empty
         await _supabase.from(tableName).insert({'values': updatedValues});
       } else {
-        // Update existing row if data already exists
         await _supabase
             .from(tableName)
             .update({'values': updatedValues})
@@ -50,14 +49,14 @@ class ListNotifier extends StateNotifier<AsyncValue<List<String>>> {
               (await _supabase.from(tableName).select('id')).first['id'],
             );
       }
-
-      state = AsyncValue.data(updatedValues);
+      if (mounted) {
+        state = AsyncValue.data(updatedValues);
+      }
     } catch (e, stackTrace) {
       state = AsyncValue.error(e, stackTrace);
     }
   }
 
-  // ✅ Delete an item from the list
   Future<void> deleteItem(String item) async {
     try {
       final currentValues = state.value ?? [];
@@ -65,7 +64,6 @@ class ListNotifier extends StateNotifier<AsyncValue<List<String>>> {
           currentValues.where((value) => value != item).toList();
 
       if (updatedValues.isEmpty) {
-        // Delete the row if the list is empty after removal
         await _supabase
             .from(tableName)
             .delete()
@@ -74,7 +72,6 @@ class ListNotifier extends StateNotifier<AsyncValue<List<String>>> {
               (await _supabase.from(tableName).select('id')).first['id'],
             );
       } else {
-        // Update the row if data still exists
         await _supabase
             .from(tableName)
             .update({'values': updatedValues})
@@ -83,8 +80,9 @@ class ListNotifier extends StateNotifier<AsyncValue<List<String>>> {
               (await _supabase.from(tableName).select('id')).first['id'],
             );
       }
-
-      state = AsyncValue.data(updatedValues);
+      if (mounted) {
+        state = AsyncValue.data(updatedValues);
+      }
     } catch (e, stackTrace) {
       state = AsyncValue.error(e, stackTrace);
     }

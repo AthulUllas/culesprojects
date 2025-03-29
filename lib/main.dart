@@ -1,6 +1,3 @@
-import 'package:culesprojects/features/authentication/authpage.dart';
-import 'package:culesprojects/features/authentication/loginpage.dart';
-import 'package:culesprojects/features/authentication/signuppage.dart';
 import 'package:culesprojects/views/pages/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
