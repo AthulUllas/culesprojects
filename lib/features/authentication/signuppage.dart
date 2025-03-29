@@ -1,3 +1,4 @@
+import 'package:culesprojects/features/authentication/loginpage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -10,6 +11,7 @@ class SignUpPage extends HookWidget {
     final isPasswordVisible = useState(false);
     final signUpEmailController = useTextEditingController();
     final signUpPasswordController = useTextEditingController();
+    // final signUpUserNameController = useTextEditingController();
     final supaBase = Supabase.instance.client;
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 255, 62, 49),
@@ -44,6 +46,23 @@ class SignUpPage extends HookWidget {
               ),
             ),
           ),
+          // Container(
+          //   margin: EdgeInsets.all(16),
+          //   decoration: BoxDecoration(
+          //     color: Colors.white,
+          //     border: Border.all(color: Colors.black, width: 1),
+          //     borderRadius: BorderRadius.circular(10),
+          //   ),
+          //   child: TextField(
+          //     controller: signUpUserNameController,
+          //     decoration: InputDecoration(
+          //       border: InputBorder.none,
+          //       hintText: "Username",
+          //       hintStyle: TextStyle(color: Colors.black),
+          //       contentPadding: EdgeInsets.only(left: 12),
+          //     ),
+          //   ),
+          // ),
           Container(
             margin: EdgeInsets.all(16),
             decoration: BoxDecoration(
@@ -76,10 +95,23 @@ class SignUpPage extends HookWidget {
             padding: const EdgeInsets.only(top: 16.0),
             child: InkWell(
               onTap: () async {
-                await supaBase.auth.signUp(
-                  email: signUpEmailController.text,
-                  password: signUpPasswordController.text.trim(),
-                );
+                try {
+                  await supaBase.auth.signUp(
+                    email: signUpEmailController.text,
+                    password: signUpPasswordController.text.trim(),
+                  );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Loginpage()),
+                  );
+                } catch (e) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(e.toString() ?? "Check your email"),
+                      duration: Duration(seconds: 2),
+                    ),
+                  );
+                }
               },
               child: Container(
                 height: 50,
