@@ -1,4 +1,5 @@
 import 'package:culesprojects/controller/addcategorycontroller.dart';
+import 'package:culesprojects/views/pages/projectspage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -56,7 +57,17 @@ class Homepage extends ConsumerWidget {
                         itemCount: categoryList.length,
                         itemBuilder: (BuildContext context, int index) {
                           return InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder:
+                                      (context) => Projectspage(
+                                        appBarTitle: categoryList[index],
+                                      ),
+                                ),
+                              );
+                            },
                             child: Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
