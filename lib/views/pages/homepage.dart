@@ -188,6 +188,7 @@ class Homepage extends ConsumerWidget {
                                     );
                                     addCategoryTextfieldController.clear();
                                   }
+                                  Navigator.pop(context);
                                 },
                                 icon: Icon(Icons.done),
                               ),
