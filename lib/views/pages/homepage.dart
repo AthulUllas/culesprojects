@@ -1,4 +1,3 @@
-import 'package:culesprojects/controller/addcategorycontroller.dart';
 import 'package:culesprojects/views/pages/projectspage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,8 +7,6 @@ class Homepage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final categoryList = ref.watch(listNotifierProvider);
-    final categoryListNotifier = ref.read(listNotifierProvider.notifier);
     final addCategoryTextfieldController = TextEditingController();
     return Scaffold(
       appBar: AppBar(
@@ -20,92 +17,61 @@ class Homepage extends ConsumerWidget {
           Padding(
             padding: const EdgeInsets.only(right: 12.0),
             child: IconButton(
-              onPressed: () {
-                categoryListNotifier.loadData();
-              },
+              onPressed: () {},
               icon: Icon(Icons.refresh, size: 28),
             ),
           ),
         ],
       ),
-      body: categoryList.when(
-        loading: () => Center(child: CircularProgressIndicator()),
-        error: (e, _) => Text("Error: $e"),
-        data:
-            (categoryList) =>
-                categoryList.isEmpty
-                    ? Center(
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 40.0),
-                        child: Text(
-                          "No items",
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    )
-                    : Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: GridView.builder(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 10,
-                          mainAxisSpacing: 10,
-                        ),
-                        itemCount: categoryList.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder:
-                                      (context) => Projectspage(
-                                        appBarTitle: categoryList[index],
-                                      ),
-                                ),
-                              );
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                border: Border.all(
-                                  color: Colors.red,
-                                  width: 0.3,
-                                ),
-                              ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    categoryList[index],
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18,
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 24.0),
-                                    child: IconButton(
-                                      onPressed: () {
-                                        categoryListNotifier.deleteItem(
-                                          categoryList[index],
-                                        );
-                                      },
-                                      icon: Icon(Icons.delete),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        },
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: GridView.builder(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
+          ),
+          itemBuilder: (BuildContext context, int index) {
+            return InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Projectspage(appBarTitle: ""),
+                  ),
+                );
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: Colors.red, width: 0.3),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
                       ),
                     ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 24.0),
+                      child: IconButton(
+                        onPressed: () {},
+                        icon: Icon(Icons.delete),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        ),
       ),
+
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
         enableFeedback: true,
@@ -179,17 +145,7 @@ class Homepage extends ConsumerWidget {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: IconButton(
-                                onPressed: () {
-                                  if (addCategoryTextfieldController
-                                      .text
-                                      .isNotEmpty) {
-                                    categoryListNotifier.addItem(
-                                      addCategoryTextfieldController.text,
-                                    );
-                                    addCategoryTextfieldController.clear();
-                                  }
-                                  Navigator.pop(context);
-                                },
+                                onPressed: () {},
                                 icon: Icon(Icons.done),
                               ),
                             ),
