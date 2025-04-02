@@ -15,6 +15,7 @@ class Homepage extends ConsumerWidget {
     final services = ref.watch(servicesProvider);
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Image.asset("assets/images/unicule logo.png", scale: 6),
         centerTitle: true,
         shape: Border(bottom: BorderSide(color: Colors.black, width: 0.1)),

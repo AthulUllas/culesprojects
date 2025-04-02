@@ -1,3 +1,5 @@
+import 'package:culesprojects/features/authentication/loginpage.dart';
+import 'package:culesprojects/features/authentication/signuppage.dart';
 import 'package:flutter/material.dart';
 
 class Authpage extends StatelessWidget {
@@ -10,40 +12,56 @@ class Authpage extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
-            height: 50,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            margin: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-            child: Center(
-              child: Text(
-                "Login",
-                style: TextStyle(
-                  letterSpacing: 2,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 20,
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Loginpage()),
+              );
+            },
+            child: Container(
+              height: 50,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              margin: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+              child: Center(
+                child: Text(
+                  "Login",
+                  style: TextStyle(
+                    letterSpacing: 2,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 20,
+                  ),
                 ),
               ),
             ),
           ),
-          Container(
-            height: 50,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            margin: EdgeInsets.symmetric(horizontal: 24),
-            child: Center(
-              child: Text(
-                "SignUp",
-                style: TextStyle(
-                  letterSpacing: 2,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 20,
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SignUpPage()),
+              );
+            },
+            child: Container(
+              height: 50,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              margin: EdgeInsets.symmetric(horizontal: 24),
+              child: Center(
+                child: Text(
+                  "SignUp",
+                  style: TextStyle(
+                    letterSpacing: 2,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 20,
+                  ),
                 ),
               ),
             ),

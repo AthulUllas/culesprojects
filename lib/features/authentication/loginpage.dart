@@ -82,15 +82,28 @@ class Loginpage extends HookWidget {
                     email: emailController.text,
                     password: passwordController.text.trim(),
                   );
-                  Navigator.push(
+                  Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(builder: (context) => Homepage()),
+                    (route) => false,
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      showCloseIcon: true,
+                      behavior: SnackBarBehavior.floating,
+                      margin: EdgeInsets.only(bottom: 50, right: 20, left: 20),
+                      content: Text("Signed In"),
+                      duration: Duration(seconds: 3),
+                    ),
                   );
                 } catch (e) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
+                      showCloseIcon: true,
+                      behavior: SnackBarBehavior.floating,
+                      margin: EdgeInsets.only(top: 50, right: 20, left: 20),
                       content: Text(e.toString()),
-                      duration: Duration(seconds: 2),
+                      duration: Duration(seconds: 3),
                     ),
                   );
                 }

@@ -100,6 +100,15 @@ class SignUpPage extends HookWidget {
                     email: signUpEmailController.text,
                     password: signUpPasswordController.text.trim(),
                   );
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      behavior: SnackBarBehavior.floating,
+                      margin: EdgeInsets.only(bottom: 50, left: 20, right: 20),
+                      content: Text("Check your mail. Comeback and signIn"),
+                      duration: Duration(seconds: 3),
+                      showCloseIcon: true,
+                    ),
+                  );
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => Loginpage()),
@@ -107,8 +116,11 @@ class SignUpPage extends HookWidget {
                 } catch (e) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
+                      behavior: SnackBarBehavior.floating,
+                      margin: EdgeInsets.only(bottom: 50, left: 20, right: 20),
                       content: Text(e.toString()),
-                      duration: Duration(seconds: 2),
+                      duration: Duration(seconds: 3),
+                      showCloseIcon: true,
                     ),
                   );
                 }
