@@ -1,6 +1,7 @@
 import 'package:culesprojects/controller/addprojectscontroller.dart';
 import 'package:culesprojects/views/pages/webviewpage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_regex/flutter_regex.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class Projectspage extends ConsumerWidget {
@@ -184,19 +185,38 @@ class Projectspage extends ConsumerWidget {
                               ),
                               child: IconButton(
                                 onPressed: () {
-                                  if (addProjectTextController
-                                          .text
-                                          .isNotEmpty &&
-                                      addProjectUrlTextController
-                                          .text
-                                          .isNotEmpty) {
-                                    ref
-                                        .read(detailsProvider.notifier)
-                                        .addDetail({
-                                          'name': addProjectTextController.text,
-                                          'url':
-                                              addProjectUrlTextController.text,
-                                        });
+                                  if (addProjectUrlTextController.text
+                                      .isUrl()) {
+                                    if (addProjectTextController
+                                            .text
+                                            .isNotEmpty &&
+                                        addProjectUrlTextController
+                                            .text
+                                            .isNotEmpty) {
+                                      ref
+                                          .read(detailsProvider.notifier)
+                                          .addDetail({
+                                            'name':
+                                                addProjectTextController.text,
+                                            'url':
+                                                addProjectUrlTextController
+                                                    .text,
+                                          });
+                                    }
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        behavior: SnackBarBehavior.floating,
+                                        margin: EdgeInsets.only(
+                                          bottom: 50,
+                                          left: 20,
+                                          right: 20,
+                                        ),
+                                        content: Text("Not a valid URL"),
+                                        duration: Duration(seconds: 3),
+                                        showCloseIcon: true,
+                                      ),
+                                    );
                                   }
                                 },
                                 icon: Icon(Icons.done),

@@ -1,6 +1,7 @@
 import 'package:culesprojects/controller/addcategorycontroller.dart';
 import 'package:culesprojects/views/pages/projectspage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_regex/flutter_regex.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class Homepage extends ConsumerWidget {
@@ -225,33 +226,53 @@ class Homepage extends ConsumerWidget {
                               ),
                               child: IconButton(
                                 onPressed: () {
-                                  if (addCategoryTextfieldController
-                                          .text
-                                          .isNotEmpty &&
-                                      addProjectTextfieldController
-                                          .text
-                                          .isNotEmpty &&
-                                      projectUrlTextfieldController
-                                          .text
-                                          .isNotEmpty) {
-                                    ref
-                                        .read(servicesProvider.notifier)
-                                        .addService(
-                                          addCategoryTextfieldController.text,
-                                          [
-                                            {
-                                              "name":
-                                                  addProjectTextfieldController
-                                                      .text,
-                                              "url":
-                                                  projectUrlTextfieldController
-                                                      .text,
-                                            },
-                                          ],
-                                        );
-                                    projectsLength += projectsLength;
-                                    addCategoryTextfieldController.clear();
-                                    Navigator.pop(context);
+                                  if (projectUrlTextfieldController.text
+                                      .isUrl()) {
+                                    if (addCategoryTextfieldController
+                                            .text
+                                            .isNotEmpty &&
+                                        addProjectTextfieldController
+                                            .text
+                                            .isNotEmpty &&
+                                        projectUrlTextfieldController
+                                            .text
+                                            .isNotEmpty) {
+                                      ref
+                                          .read(servicesProvider.notifier)
+                                          .addService(
+                                            addCategoryTextfieldController.text,
+                                            [
+                                              {
+                                                "name":
+                                                    addProjectTextfieldController
+                                                        .text,
+                                                "url":
+                                                    projectUrlTextfieldController
+                                                        .text,
+                                              },
+                                            ],
+                                          );
+                                      projectsLength += projectsLength;
+                                      addCategoryTextfieldController.clear();
+                                      Navigator.pop(context);
+                                    }
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        behavior: SnackBarBehavior.floating,
+                                        margin: EdgeInsets.only(
+                                          bottom:
+                                              MediaQuery.of(
+                                                context,
+                                              ).viewInsets.bottom,
+                                          left: 20,
+                                          right: 20,
+                                        ),
+                                        content: Text("Not a valid URL"),
+                                        duration: Duration(seconds: 3),
+                                        showCloseIcon: true,
+                                      ),
+                                    );
                                   }
                                 },
                                 icon: Icon(Icons.done),
