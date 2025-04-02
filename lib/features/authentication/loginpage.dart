@@ -1,6 +1,7 @@
 import 'package:culesprojects/views/pages/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_regex/flutter_regex.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class Loginpage extends HookWidget {
@@ -77,33 +78,49 @@ class Loginpage extends HookWidget {
             padding: const EdgeInsets.only(top: 16.0),
             child: InkWell(
               onTap: () async {
-                try {
-                  await supaBase.auth.signInWithPassword(
-                    email: emailController.text,
-                    password: passwordController.text.trim(),
-                  );
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(builder: (context) => Homepage()),
-                    (route) => false,
-                  );
+                if (emailController.text.isEmail()) {
+                  try {
+                    await supaBase.auth.signInWithPassword(
+                      email: emailController.text,
+                      password: passwordController.text.trim(),
+                    );
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => Homepage()),
+                      (route) => false,
+                    );
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        showCloseIcon: true,
+                        behavior: SnackBarBehavior.floating,
+                        margin: EdgeInsets.only(
+                          bottom: 50,
+                          right: 20,
+                          left: 20,
+                        ),
+                        content: Text("Signed In"),
+                        duration: Duration(seconds: 3),
+                      ),
+                    );
+                  } catch (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        showCloseIcon: true,
+                        behavior: SnackBarBehavior.floating,
+                        margin: EdgeInsets.only(top: 50, right: 20, left: 20),
+                        content: Text(e.toString()),
+                        duration: Duration(seconds: 3),
+                      ),
+                    );
+                  }
+                } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      showCloseIcon: true,
                       behavior: SnackBarBehavior.floating,
-                      margin: EdgeInsets.only(bottom: 50, right: 20, left: 20),
-                      content: Text("Signed In"),
+                      margin: EdgeInsets.only(bottom: 50, left: 20, right: 20),
+                      content: Text("Not a valid email"),
                       duration: Duration(seconds: 3),
-                    ),
-                  );
-                } catch (e) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
                       showCloseIcon: true,
-                      behavior: SnackBarBehavior.floating,
-                      margin: EdgeInsets.only(top: 50, right: 20, left: 20),
-                      content: Text(e.toString()),
-                      duration: Duration(seconds: 3),
                     ),
                   );
                 }

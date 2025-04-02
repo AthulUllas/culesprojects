@@ -126,7 +126,7 @@ class Homepage extends ConsumerWidget {
                               Padding(
                                 padding: const EdgeInsets.only(left: 24.0),
                                 child: Text(
-                                  "Enter your category name",
+                                  "Enter your category details",
                                   style: TextStyle(
                                     fontWeight: FontWeight.w400,
                                     fontSize: 24,
@@ -202,7 +202,7 @@ class Homepage extends ConsumerWidget {
                                   controller: projectUrlTextfieldController,
                                   decoration: InputDecoration(
                                     border: InputBorder.none,
-                                    hintText: "Project Url",
+                                    hintText: "Enter your project URL here",
                                     hintStyle: TextStyle(color: Colors.grey),
                                     contentPadding: EdgeInsets.only(left: 12),
                                   ),

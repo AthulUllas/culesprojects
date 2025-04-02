@@ -50,7 +50,7 @@ class Projectspage extends ConsumerWidget {
                     MaterialPageRoute(
                       builder:
                           (context) => WebViewPage(
-                            webViewUrl: details[index]['url'],
+                            webViewUrl: Uri.parse(details[index]['url']),
                             appBarTitle: details[index]['name'],
                           ),
                     ),
@@ -160,7 +160,8 @@ class Projectspage extends ConsumerWidget {
                                   controller: addProjectUrlTextController,
                                   decoration: InputDecoration(
                                     border: InputBorder.none,
-                                    hintText: "Project Url",
+                                    hintText:
+                                        "Enter the web URL of the project",
                                     hintStyle: TextStyle(color: Colors.grey),
                                     contentPadding: EdgeInsets.only(left: 12),
                                   ),

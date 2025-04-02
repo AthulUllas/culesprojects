@@ -1,6 +1,7 @@
 import 'package:culesprojects/features/authentication/loginpage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_regex/flutter_regex.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SignUpPage extends HookWidget {
@@ -95,30 +96,50 @@ class SignUpPage extends HookWidget {
             padding: const EdgeInsets.only(top: 16.0),
             child: InkWell(
               onTap: () async {
-                try {
-                  await supaBase.auth.signUp(
-                    email: signUpEmailController.text,
-                    password: signUpPasswordController.text.trim(),
-                  );
+                if (signUpEmailController.text.isEmail()) {
+                  try {
+                    await supaBase.auth.signUp(
+                      email: signUpEmailController.text,
+                      password: signUpPasswordController.text.trim(),
+                    );
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        behavior: SnackBarBehavior.floating,
+                        margin: EdgeInsets.only(
+                          bottom: 50,
+                          left: 20,
+                          right: 20,
+                        ),
+                        content: Text("Check your mail. Comeback and signIn"),
+                        duration: Duration(seconds: 3),
+                        showCloseIcon: true,
+                      ),
+                    );
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Loginpage()),
+                    );
+                  } catch (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        behavior: SnackBarBehavior.floating,
+                        margin: EdgeInsets.only(
+                          bottom: 50,
+                          left: 20,
+                          right: 20,
+                        ),
+                        content: Text(e.toString()),
+                        duration: Duration(seconds: 3),
+                        showCloseIcon: true,
+                      ),
+                    );
+                  }
+                } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       behavior: SnackBarBehavior.floating,
                       margin: EdgeInsets.only(bottom: 50, left: 20, right: 20),
-                      content: Text("Check your mail. Comeback and signIn"),
-                      duration: Duration(seconds: 3),
-                      showCloseIcon: true,
-                    ),
-                  );
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Loginpage()),
-                  );
-                } catch (e) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      behavior: SnackBarBehavior.floating,
-                      margin: EdgeInsets.only(bottom: 50, left: 20, right: 20),
-                      content: Text(e.toString()),
+                      content: Text("Not a valid email"),
                       duration: Duration(seconds: 3),
                       showCloseIcon: true,
                     ),
