@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebViewPage extends StatelessWidget {
-  WebViewPage({super.key, required this.webViewUrl});
+  WebViewPage({super.key, required this.webViewUrl, required this.appBarTitle});
 
   final String webViewUrl;
+  final String appBarTitle;
 
   late final webViewController =
       WebViewController()

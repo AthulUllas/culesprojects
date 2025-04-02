@@ -8,10 +8,12 @@ class Projectspage extends ConsumerWidget {
     super.key,
     required this.appBarTitle,
     required this.projectId,
+    required this.projectDetailsLength,
   });
 
   final String appBarTitle;
   final String projectId;
+  final int projectDetailsLength;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -30,7 +32,7 @@ class Projectspage extends ConsumerWidget {
             return Center(child: Text('No projects found'));
           }
           return ListView.builder(
-            itemCount: 1,
+            itemCount: projectDetailsLength,
             itemBuilder: (context, index) {
               return InkWell(
                 onTap: () {
@@ -40,6 +42,7 @@ class Projectspage extends ConsumerWidget {
                       builder:
                           (context) => WebViewPage(
                             webViewUrl: services[index].details[index]['url'],
+                            appBarTitle: services[index].details[index]['name'],
                           ),
                     ),
                   );
@@ -85,84 +88,106 @@ class Projectspage extends ConsumerWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showModalBottomSheet(
+            isScrollControlled: true,
             context: context,
             builder: (context) {
-              return Container(
-                decoration: BoxDecoration(),
-                height: MediaQuery.of(context).size.height * 0.3,
-                child: Column(
-                  children: [
-                    Row(
+              return Padding(
+                padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom,
+                ),
+                child: SingleChildScrollView(
+                  child: Container(
+                    decoration: BoxDecoration(),
+                    height: MediaQuery.of(context).size.height * 0.3,
+                    child: Column(
                       children: [
-                        Expanded(
-                          child: Container(
-                            margin: EdgeInsets.all(16),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.red, width: 0.2),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: TextField(
-                              controller: addProjectTextController,
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: "Project Name",
-                                hintStyle: TextStyle(color: Colors.grey),
-                                contentPadding: EdgeInsets.only(left: 12),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Container(
+                                margin: EdgeInsets.all(16),
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.red,
+                                    width: 0.2,
+                                  ),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: TextField(
+                                  controller: addProjectTextController,
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: "Project Name",
+                                    hintStyle: TextStyle(color: Colors.grey),
+                                    contentPadding: EdgeInsets.only(left: 12),
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
+                          ],
                         ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            margin: EdgeInsets.all(16),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.red, width: 0.2),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: TextField(
-                              controller: addProjectUrlTextController,
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: "Project Url",
-                                hintStyle: TextStyle(color: Colors.grey),
-                                contentPadding: EdgeInsets.only(left: 12),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Container(
+                                margin: EdgeInsets.all(16),
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.red,
+                                    width: 0.2,
+                                  ),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: TextField(
+                                  controller: addProjectUrlTextController,
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: "Project Url",
+                                    hintStyle: TextStyle(color: Colors.grey),
+                                    contentPadding: EdgeInsets.only(left: 12),
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Colors.blue,
+                                border: Border.all(
+                                  color: Colors.black,
+                                  width: 0.2,
+                                ),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: IconButton(
+                                onPressed: () {
+                                  if (addProjectTextController
+                                          .text
+                                          .isNotEmpty &&
+                                      addProjectUrlTextController
+                                          .text
+                                          .isNotEmpty) {
+                                    ref
+                                        .read(servicesProvider.notifier)
+                                        .addDetailToService(projectId, {
+                                          "name": addProjectTextController.text,
+                                          "url":
+                                              addProjectUrlTextController.text,
+                                        });
+                                  }
+                                },
+                                icon: Icon(Icons.done),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Colors.blue,
-                            border: Border.all(color: Colors.black, width: 0.2),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: IconButton(
-                            onPressed: () {
-                              if (addProjectTextController.text.isNotEmpty &&
-                                  addProjectUrlTextController.text.isNotEmpty) {
-                                ref
-                                    .read(servicesProvider.notifier)
-                                    .addDetailToService(projectId, {
-                                      "name": addProjectTextController.text,
-                                      "url": addProjectUrlTextController.text,
-                                    });
-                              }
-                            },
-                            icon: Icon(Icons.done),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
+                  ),
                 ),
               );
             },
