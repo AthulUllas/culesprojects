@@ -1,44 +1,40 @@
-import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:culesprojects/models/categorymodel.dart';
+// import 'package:supabase_flutter/supabase_flutter.dart';
+// import 'package:culesprojects/models/categorymodel.dart';
 
-final supabase = Supabase.instance.client;
+// final supabase = Supabase.instance.client;
 
-class SupabaseService {
-  // Insert Data
-  Future<void> insertData(
-    String name,
-    List<Map<String, dynamic>> details,
-  ) async {
-    final response = await supabase.from('data_base').insert({
-      "name": name,
-      "details": details,
-    });
+// class SupabaseService {
+//   Future<void> insertData(
+//     String name,
+//     List<Map<String, dynamic>> details,
+//   ) async {
+//     final response = await supabase.from('data_base').insert({
+//       "name": name,
+//       "details": details,
+//     });
 
-    if (response.error != null) {
-      throw Exception(response.error!.message);
-    }
-  }
+//     if (response.error != null) {
+//       throw Exception(response.error!.message);
+//     }
+//   }
 
-  // Get Data
-  Future<List<Service>> getData() async {
-    try {
-      final response = await supabase.from('data_base').select();
+//   Future<List<Service>> getData() async {
+//     try {
+//       final response = await supabase.from('data_base').select();
 
-      // Convert response into List<Service>
-      return response.map<Service>((json) => Service.fromJson(json)).toList();
-    } catch (error) {
-      throw Exception("Failed to fetch data: $error");
-    }
-  }
+//       return response.map<Service>((json) => Service.fromJson(json)).toList();
+//     } catch (error) {
+//       throw Exception("Failed to fetch data: $error");
+//     }
+//   }
 
-  // Delete Data
-  Future<void> deleteData(String id) async {
-    final response = await supabase.from('data_base').delete().match({
-      'id': id,
-    });
+//   Future<void> deleteData(String id) async {
+//     final response = await supabase.from('data_base').delete().match({
+//       'id': id,
+//     });
 
-    if (response.error != null) {
-      throw Exception(response.error!.message);
-    }
-  }
-}
+//     if (response.error != null) {
+//       throw Exception(response.error!.message);
+//     }
+//   }
+// }

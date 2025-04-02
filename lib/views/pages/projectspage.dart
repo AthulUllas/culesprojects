@@ -1,4 +1,4 @@
-import 'package:culesprojects/controller/addcategorycontroller.dart';
+import 'package:culesprojects/controller/addprojectscontroller.dart';
 import 'package:culesprojects/views/pages/webviewpage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,7 +17,8 @@ class Projectspage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final services = ref.watch(servicesProvider);
+    ref.read(detailsProvider.notifier).setServiceId(projectId);
+    final detailsState = ref.watch(detailsProvider);
     final addProjectTextController = TextEditingController();
     final addProjectUrlTextController = TextEditingController();
     return Scaffold(
@@ -25,14 +26,22 @@ class Projectspage extends ConsumerWidget {
         title: Text(appBarTitle, style: TextStyle(fontWeight: FontWeight.bold)),
         shape: Border(bottom: BorderSide(color: Colors.red, width: 0.1)),
         centerTitle: true,
+        // actions: [
+        //   IconButton(
+        //     onPressed: () {
+        //       ref.read(detailsProvider.notifier).fetchDetails(projectId);
+        //     },
+        //     icon: Icon(Icons.refresh),
+        //   ),
+        // ],
       ),
-      body: services.when(
-        data: (services) {
-          if (services.isEmpty) {
+      body: detailsState.when(
+        data: (details) {
+          if (details.isEmpty) {
             return Center(child: Text('No projects found'));
           }
           return ListView.builder(
-            itemCount: projectDetailsLength,
+            itemCount: details.length,
             itemBuilder: (context, index) {
               return InkWell(
                 onTap: () {
@@ -41,8 +50,8 @@ class Projectspage extends ConsumerWidget {
                     MaterialPageRoute(
                       builder:
                           (context) => WebViewPage(
-                            webViewUrl: services[index].details[index]['url'],
-                            appBarTitle: services[index].details[index]['name'],
+                            webViewUrl: details[index]['url'],
+                            appBarTitle: details[index]['name'],
                           ),
                     ),
                   );
@@ -57,21 +66,30 @@ class Projectspage extends ConsumerWidget {
                   width: MediaQuery.of(context).size.width * 0.6,
                   height: 100,
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        services[index].details[index]['name'],
-                        style: TextStyle(color: Colors.amber),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 24.0),
+                        child: Text(
+                          details[index]['name'],
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
-                      IconButton(
-                        onPressed: () {
-                          ref
-                              .read(servicesProvider.notifier)
-                              .removeDetailFromService(services[index].id, {
-                                "name": services[index].details[index]['name'],
-                                "url": services[index].details[index]['url'],
-                              });
-                        },
-                        icon: Icon(Icons.delete),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 24.0),
+                        child: IconButton(
+                          onPressed: () {
+                            ref.read(detailsProvider.notifier).removeDetail({
+                              'name': details[index]['name'],
+                              'url': details[index]['url'],
+                            });
+                          },
+                          icon: Icon(Icons.delete, size: 26),
+                        ),
                       ),
                     ],
                   ),
@@ -172,10 +190,10 @@ class Projectspage extends ConsumerWidget {
                                           .text
                                           .isNotEmpty) {
                                     ref
-                                        .read(servicesProvider.notifier)
-                                        .addDetailToService(projectId, {
-                                          "name": addProjectTextController.text,
-                                          "url":
+                                        .read(detailsProvider.notifier)
+                                        .addDetail({
+                                          'name': addProjectTextController.text,
+                                          'url':
                                               addProjectUrlTextController.text,
                                         });
                                   }

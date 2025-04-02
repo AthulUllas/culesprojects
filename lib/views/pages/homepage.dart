@@ -18,17 +18,17 @@ class Homepage extends ConsumerWidget {
         title: Image.asset("assets/images/unicule logo.png", scale: 6),
         centerTitle: true,
         shape: Border(bottom: BorderSide(color: Colors.black, width: 0.1)),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 12.0),
-            child: IconButton(
-              onPressed: () {
-                ref.read(servicesProvider.notifier).fetchServices();
-              },
-              icon: Icon(Icons.refresh, size: 28),
-            ),
-          ),
-        ],
+        // actions: [
+        //   Padding(
+        //     padding: const EdgeInsets.only(right: 12.0),
+        //     child: IconButton(
+        //       onPressed: () {
+        //         ref.read(servicesProvider.notifier).fetchServices();
+        //       },
+        //       icon: Icon(Icons.refresh, size: 28),
+        //     ),
+        //   ),
+        // ],
       ),
       body: services.when(
         data: (services) {
