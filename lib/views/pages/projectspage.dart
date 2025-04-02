@@ -7,15 +7,17 @@ class Projectspage extends ConsumerWidget {
   const Projectspage({
     super.key,
     required this.appBarTitle,
-    required this.projectsLength,
+    required this.projectId,
   });
 
   final String appBarTitle;
-  final int projectsLength;
+  final String projectId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final services = ref.watch(servicesProvider);
+    final addProjectTextController = TextEditingController();
+    final addProjectUrlTextController = TextEditingController();
     return Scaffold(
       appBar: AppBar(
         title: Text(appBarTitle, style: TextStyle(fontWeight: FontWeight.bold)),
@@ -51,11 +53,24 @@ class Projectspage extends ConsumerWidget {
                   ),
                   width: MediaQuery.of(context).size.width * 0.6,
                   height: 100,
-                  child: Center(
-                    child: Text(
-                      services[index].details[index]['name'],
-                      style: TextStyle(color: Colors.amber),
-                    ),
+                  child: Row(
+                    children: [
+                      Text(
+                        services[index].details[index]['name'],
+                        style: TextStyle(color: Colors.amber),
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          ref
+                              .read(servicesProvider.notifier)
+                              .removeDetailFromService(services[index].id, {
+                                "name": services[index].details[index]['name'],
+                                "url": services[index].details[index]['url'],
+                              });
+                        },
+                        icon: Icon(Icons.delete),
+                      ),
+                    ],
                   ),
                 ),
               );
@@ -72,7 +87,84 @@ class Projectspage extends ConsumerWidget {
           showModalBottomSheet(
             context: context,
             builder: (context) {
-              return Container();
+              return Container(
+                decoration: BoxDecoration(),
+                height: MediaQuery.of(context).size.height * 0.3,
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            margin: EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.red, width: 0.2),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: TextField(
+                              controller: addProjectTextController,
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: "Project Name",
+                                hintStyle: TextStyle(color: Colors.grey),
+                                contentPadding: EdgeInsets.only(left: 12),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            margin: EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.red, width: 0.2),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: TextField(
+                              controller: addProjectUrlTextController,
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: "Project Url",
+                                hintStyle: TextStyle(color: Colors.grey),
+                                contentPadding: EdgeInsets.only(left: 12),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.blue,
+                            border: Border.all(color: Colors.black, width: 0.2),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: IconButton(
+                            onPressed: () {
+                              if (addProjectTextController.text.isNotEmpty &&
+                                  addProjectUrlTextController.text.isNotEmpty) {
+                                ref
+                                    .read(servicesProvider.notifier)
+                                    .addDetailToService(projectId, {
+                                      "name": addProjectTextController.text,
+                                      "url": addProjectUrlTextController.text,
+                                    });
+                              }
+                            },
+                            icon: Icon(Icons.done),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              );
             },
           );
         },

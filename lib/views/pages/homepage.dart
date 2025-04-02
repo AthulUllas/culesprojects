@@ -45,6 +45,7 @@ class Homepage extends ConsumerWidget {
                 mainAxisSpacing: 10,
               ),
               itemBuilder: (BuildContext context, int index) {
+                final projectId = services[index].id;
                 return InkWell(
                   onTap: () {
                     Navigator.push(
@@ -53,7 +54,7 @@ class Homepage extends ConsumerWidget {
                         builder:
                             (context) => Projectspage(
                               appBarTitle: services[index].name,
-                              projectsLength: projectsLength,
+                              projectId: projectId,
                             ),
                       ),
                     );
