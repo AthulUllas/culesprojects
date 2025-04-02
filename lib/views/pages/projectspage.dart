@@ -202,6 +202,9 @@ class Projectspage extends ConsumerWidget {
                                                 addProjectUrlTextController
                                                     .text,
                                           });
+                                      addProjectTextController.clear();
+                                      addProjectUrlTextController.clear();
+                                      Navigator.pop(context);
                                     }
                                   } else {
                                     ScaffoldMessenger.of(context).showSnackBar(
