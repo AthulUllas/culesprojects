@@ -118,11 +118,6 @@ class Projectspage extends ConsumerWidget {
                                   );
                                 },
                               );
-
-                              // ref.read(detailsProvider.notifier).removeDetail({
-                              //   'name': details[index]['name'],
-                              //   'url': details[index]['url'],
-                              // });
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(

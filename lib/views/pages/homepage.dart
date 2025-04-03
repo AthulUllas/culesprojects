@@ -1,4 +1,5 @@
 import 'package:culesprojects/controller/addcategorycontroller.dart';
+import 'package:culesprojects/features/authentication/authpage.dart';
 import 'package:culesprojects/views/pages/projectspage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_regex/flutter_regex.dart';
@@ -21,17 +22,47 @@ class Homepage extends ConsumerWidget {
         title: Image.asset("assets/images/unicule logo.png", scale: 6),
         centerTitle: true,
         shape: Border(bottom: BorderSide(color: Colors.black, width: 0.1)),
-        // actions: [
-        //   Padding(
-        //     padding: const EdgeInsets.only(right: 12.0),
-        //     child: IconButton(
-        //       onPressed: () {
-        //         ref.read(servicesProvider.notifier).fetchServices();
-        //       },
-        //       icon: Icon(Icons.refresh, size: 28),
-        //     ),
-        //   ),
-        // ],
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 12.0),
+            child: IconButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text("Sign Out"),
+                      content: Text("Are you sure you want to Logout ?"),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text("Cancel"),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            final supaBase = Supabase.instance.client;
+                            supaBase.auth.signOut();
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Authpage(),
+                              ),
+                              (route) => false,
+                            );
+                          },
+                          child: Text("OK"),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+              icon: Icon(Icons.logout_rounded, size: 28),
+            ),
+          ),
+        ],
       ),
       body: services.when(
         data: (services) {
@@ -115,10 +146,6 @@ class Homepage extends ConsumerWidget {
                                     );
                                   },
                                 );
-
-                                // ref
-                                //     .read(servicesProvider.notifier)
-                                //     .deleteService(services[index].id);
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
