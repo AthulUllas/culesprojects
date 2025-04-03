@@ -120,6 +120,23 @@ class Projectspage extends ConsumerWidget {
                     height: MediaQuery.of(context).size.height * 0.3,
                     child: Column(
                       children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 32.0),
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 24.0),
+                                child: Text(
+                                  "Enter your project details",
+                                  style: TextStyle(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                         Row(
                           children: [
                             Expanded(
