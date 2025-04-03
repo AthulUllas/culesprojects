@@ -87,13 +87,48 @@ class Projectspage extends ConsumerWidget {
                         child: IconButton(
                           onPressed: () {
                             if (superUser == "culesapp1@gmail.com") {
-                              ref.read(detailsProvider.notifier).removeDetail({
-                                'name': details[index]['name'],
-                                'url': details[index]['url'],
-                              });
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text("Confirm"),
+                                    content: Text(
+                                      "Are you Sure you want to delete ?",
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Text("Cancel"),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          ref
+                                              .read(detailsProvider.notifier)
+                                              .removeDetail({
+                                                'name': details[index]['name'],
+                                                'url': details[index]['url'],
+                                              });
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Text("OK"),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+
+                              // ref.read(detailsProvider.notifier).removeDetail({
+                              //   'name': details[index]['name'],
+                              //   'url': details[index]['url'],
+                              // });
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
                                   backgroundColor: Colors.red,
                                   margin: EdgeInsets.only(
                                     bottom: 50,
@@ -250,10 +285,17 @@ class Projectspage extends ConsumerWidget {
                                           context,
                                         ).showSnackBar(
                                           SnackBar(
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
                                             backgroundColor: Colors.red,
                                             behavior: SnackBarBehavior.floating,
                                             margin: EdgeInsets.only(
-                                              bottom: 50,
+                                              bottom:
+                                                  MediaQuery.of(
+                                                    context,
+                                                  ).viewInsets.bottom,
                                               left: 20,
                                               right: 20,
                                             ),
@@ -273,6 +315,11 @@ class Projectspage extends ConsumerWidget {
                                         context,
                                       ).showSnackBar(
                                         SnackBar(
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(
+                                              10,
+                                            ),
+                                          ),
                                           backgroundColor: Colors.red,
                                           behavior: SnackBarBehavior.floating,
                                           margin: EdgeInsets.only(
@@ -307,6 +354,9 @@ class Projectspage extends ConsumerWidget {
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
                 backgroundColor: Colors.red,
                 margin: EdgeInsets.only(bottom: 50, right: 20, left: 20),
                 behavior: SnackBarBehavior.floating,

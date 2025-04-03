@@ -85,12 +85,46 @@ class Homepage extends ConsumerWidget {
                           child: IconButton(
                             onPressed: () {
                               if (superUser == "culesapp1@gmail.com") {
-                                ref
-                                    .read(servicesProvider.notifier)
-                                    .deleteService(services[index].id);
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text("Confirm"),
+                                      content: Text(
+                                        "Are you Sure you want to delete ?",
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: Text("Cancel"),
+                                        ),
+                                        TextButton(
+                                          onPressed: () {
+                                            ref
+                                                .read(servicesProvider.notifier)
+                                                .deleteService(
+                                                  services[index].id,
+                                                );
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: Text("OK"),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+
+                                // ref
+                                //     .read(servicesProvider.notifier)
+                                //     .deleteService(services[index].id);
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
                                     backgroundColor: Colors.red,
                                     margin: EdgeInsets.only(
                                       bottom: 50,
@@ -281,6 +315,10 @@ class Homepage extends ConsumerWidget {
                                           context,
                                         ).showSnackBar(
                                           SnackBar(
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
                                             backgroundColor: Colors.red,
                                             behavior: SnackBarBehavior.floating,
                                             margin: EdgeInsets.only(
@@ -304,6 +342,11 @@ class Homepage extends ConsumerWidget {
                                         context,
                                       ).showSnackBar(
                                         SnackBar(
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(
+                                              10,
+                                            ),
+                                          ),
                                           backgroundColor: Colors.red,
                                           behavior: SnackBarBehavior.floating,
                                           margin: EdgeInsets.only(
@@ -341,6 +384,9 @@ class Homepage extends ConsumerWidget {
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
                 backgroundColor: Colors.red,
                 margin: EdgeInsets.only(bottom: 50, right: 20, left: 20),
                 behavior: SnackBarBehavior.floating,

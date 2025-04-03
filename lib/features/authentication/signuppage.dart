@@ -104,6 +104,9 @@ class SignUpPage extends HookWidget {
                     );
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                         backgroundColor: Colors.red,
                         behavior: SnackBarBehavior.floating,
                         margin: EdgeInsets.only(
@@ -126,6 +129,9 @@ class SignUpPage extends HookWidget {
                   } catch (e) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                         backgroundColor: Colors.red,
                         behavior: SnackBarBehavior.floating,
                         margin: EdgeInsets.only(
@@ -145,6 +151,9 @@ class SignUpPage extends HookWidget {
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                       backgroundColor: Colors.red,
                       behavior: SnackBarBehavior.floating,
                       margin: EdgeInsets.only(bottom: 50, left: 20, right: 20),
