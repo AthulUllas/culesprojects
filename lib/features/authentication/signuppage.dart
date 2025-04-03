@@ -104,13 +104,17 @@ class SignUpPage extends HookWidget {
                     );
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
+                        backgroundColor: Colors.red,
                         behavior: SnackBarBehavior.floating,
                         margin: EdgeInsets.only(
                           bottom: 50,
                           left: 20,
                           right: 20,
                         ),
-                        content: Text("Check your mail. Comeback and signIn"),
+                        content: Text(
+                          "Check your mail. Comeback and signIn",
+                          style: TextStyle(color: Colors.white),
+                        ),
                         duration: Duration(seconds: 3),
                         showCloseIcon: true,
                       ),
@@ -122,13 +126,17 @@ class SignUpPage extends HookWidget {
                   } catch (e) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
+                        backgroundColor: Colors.red,
                         behavior: SnackBarBehavior.floating,
                         margin: EdgeInsets.only(
                           bottom: 50,
                           left: 20,
                           right: 20,
                         ),
-                        content: Text(e.toString()),
+                        content: Text(
+                          e.toString(),
+                          style: TextStyle(color: Colors.white),
+                        ),
                         duration: Duration(seconds: 3),
                         showCloseIcon: true,
                       ),
@@ -137,9 +145,13 @@ class SignUpPage extends HookWidget {
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
+                      backgroundColor: Colors.red,
                       behavior: SnackBarBehavior.floating,
                       margin: EdgeInsets.only(bottom: 50, left: 20, right: 20),
-                      content: Text("Not a valid email"),
+                      content: Text(
+                        "Not a valid email",
+                        style: TextStyle(color: Colors.white),
+                      ),
                       duration: Duration(seconds: 3),
                       showCloseIcon: true,
                     ),

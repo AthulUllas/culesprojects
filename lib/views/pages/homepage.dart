@@ -91,13 +91,17 @@ class Homepage extends ConsumerWidget {
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
+                                    backgroundColor: Colors.red,
                                     margin: EdgeInsets.only(
                                       bottom: 50,
                                       right: 20,
                                       left: 20,
                                     ),
                                     behavior: SnackBarBehavior.floating,
-                                    content: Text("Users cannot access it"),
+                                    content: Text(
+                                      "Users cannot access it",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
                                     duration: Duration(milliseconds: 100),
                                     showCloseIcon: true,
                                   ),
@@ -277,6 +281,7 @@ class Homepage extends ConsumerWidget {
                                           context,
                                         ).showSnackBar(
                                           SnackBar(
+                                            backgroundColor: Colors.red,
                                             behavior: SnackBarBehavior.floating,
                                             margin: EdgeInsets.only(
                                               bottom: 50,
@@ -285,6 +290,9 @@ class Homepage extends ConsumerWidget {
                                             ),
                                             content: Text(
                                               "Textfield empty !!!",
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                              ),
                                             ),
                                             duration: Duration(seconds: 3),
                                             showCloseIcon: true,
@@ -296,6 +304,7 @@ class Homepage extends ConsumerWidget {
                                         context,
                                       ).showSnackBar(
                                         SnackBar(
+                                          backgroundColor: Colors.red,
                                           behavior: SnackBarBehavior.floating,
                                           margin: EdgeInsets.only(
                                             bottom:
@@ -305,7 +314,12 @@ class Homepage extends ConsumerWidget {
                                             left: 20,
                                             right: 20,
                                           ),
-                                          content: Text("Not a valid URL"),
+                                          content: Text(
+                                            "Not a valid URL",
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                            ),
+                                          ),
                                           duration: Duration(seconds: 3),
                                           showCloseIcon: true,
                                         ),
@@ -327,9 +341,13 @@ class Homepage extends ConsumerWidget {
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
+                backgroundColor: Colors.red,
                 margin: EdgeInsets.only(bottom: 50, right: 20, left: 20),
                 behavior: SnackBarBehavior.floating,
-                content: Text("Users cannot access it"),
+                content: Text(
+                  "Users cannot access it",
+                  style: TextStyle(color: Colors.white),
+                ),
                 duration: Duration(milliseconds: 100),
                 showCloseIcon: true,
               ),

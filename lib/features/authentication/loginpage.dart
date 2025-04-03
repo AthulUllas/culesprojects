@@ -91,6 +91,7 @@ class Loginpage extends HookWidget {
                     );
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
+                        backgroundColor: Colors.red,
                         showCloseIcon: true,
                         behavior: SnackBarBehavior.floating,
                         margin: EdgeInsets.only(
@@ -98,17 +99,24 @@ class Loginpage extends HookWidget {
                           right: 20,
                           left: 20,
                         ),
-                        content: Text("Signed In"),
+                        content: Text(
+                          "Signed In",
+                          style: TextStyle(color: Colors.white),
+                        ),
                         duration: Duration(seconds: 3),
                       ),
                     );
                   } catch (e) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
+                        backgroundColor: Colors.red,
                         showCloseIcon: true,
                         behavior: SnackBarBehavior.floating,
                         margin: EdgeInsets.only(top: 50, right: 20, left: 20),
-                        content: Text(e.toString()),
+                        content: Text(
+                          e.toString(),
+                          style: TextStyle(color: Colors.white),
+                        ),
                         duration: Duration(seconds: 3),
                       ),
                     );
@@ -116,9 +124,13 @@ class Loginpage extends HookWidget {
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
+                      backgroundColor: Colors.red,
                       behavior: SnackBarBehavior.floating,
                       margin: EdgeInsets.only(bottom: 50, left: 20, right: 20),
-                      content: Text("Not a valid email"),
+                      content: Text(
+                        "Not a valid email",
+                        style: TextStyle(color: Colors.white),
+                      ),
                       duration: Duration(seconds: 3),
                       showCloseIcon: true,
                     ),
