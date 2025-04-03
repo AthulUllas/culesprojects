@@ -78,10 +78,10 @@ class Loginpage extends HookWidget {
             padding: const EdgeInsets.only(top: 16.0),
             child: InkWell(
               onTap: () async {
-                if (emailController.text.isEmail()) {
+                if (emailController.text.trim().isEmail()) {
                   try {
                     await supaBase.auth.signInWithPassword(
-                      email: emailController.text,
+                      email: emailController.text.trim(),
                       password: passwordController.text.trim(),
                     );
                     Navigator.pushAndRemoveUntil(

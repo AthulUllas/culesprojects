@@ -96,10 +96,10 @@ class SignUpPage extends HookWidget {
             padding: const EdgeInsets.only(top: 16.0),
             child: InkWell(
               onTap: () async {
-                if (signUpEmailController.text.isEmail()) {
+                if (signUpEmailController.text.trim().isEmail()) {
                   try {
                     await supaBase.auth.signUp(
-                      email: signUpEmailController.text,
+                      email: signUpEmailController.text.trim(),
                       password: signUpPasswordController.text.trim(),
                     );
                     ScaffoldMessenger.of(context).showSnackBar(
