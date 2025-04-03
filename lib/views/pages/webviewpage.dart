@@ -16,7 +16,11 @@ class WebViewPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(automaticallyImplyLeading: true),
+      appBar: AppBar(
+        automaticallyImplyLeading: true,
+        title: Text(appBarTitle, style: TextStyle(fontWeight: FontWeight.bold)),
+        centerTitle: true,
+      ),
       body: SafeArea(child: WebViewWidget(controller: webViewController)),
     );
   }
