@@ -29,11 +29,11 @@ class _AuthcheckState extends State<Authcheck> {
           (route) => false,
         );
       } else {
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: ((context) => Homepage())),
-          (route) => false,
-        );
+        // Navigator.pushAndRemoveUntil(
+        //   context,
+        //   MaterialPageRoute(builder: ((context) => Homepage())),
+        //   (route) => false,
+        // );
       }
     });
     refreshAuthState();

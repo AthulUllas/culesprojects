@@ -7,7 +7,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class Homepage extends ConsumerWidget {
-  const Homepage({super.key});
+  const Homepage({super.key, required this.isSuperUser});
+
+  final bool isSuperUser;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -23,45 +25,45 @@ class Homepage extends ConsumerWidget {
         centerTitle: true,
         shape: Border(bottom: BorderSide(color: Colors.black, width: 0.1)),
         actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 12.0),
-            child: IconButton(
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text("Sign Out"),
-                      content: Text("Are you sure you want to Logout ?"),
-                      actions: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: Text("Cancel"),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            final supaBase = Supabase.instance.client;
-                            supaBase.auth.signOut();
-                            Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => Authpage(),
-                              ),
-                              (route) => false,
-                            );
-                          },
-                          child: Text("OK"),
-                        ),
-                      ],
-                    );
-                  },
-                );
-              },
-              icon: Icon(Icons.logout_rounded, size: 28),
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.only(right: 12.0),
+          //   child: IconButton(
+          //     onPressed: () {
+          //       showDialog(
+          //         context: context,
+          //         builder: (BuildContext context) {
+          //           return AlertDialog(
+          //             title: Text("Sign Out"),
+          //             content: Text("Are you sure you want to Logout ?"),
+          //             actions: [
+          //               TextButton(
+          //                 onPressed: () {
+          //                   Navigator.of(context).pop();
+          //                 },
+          //                 child: Text("Cancel"),
+          //               ),
+          //               TextButton(
+          //                 onPressed: () {
+          //                   final supaBase = Supabase.instance.client;
+          //                   supaBase.auth.signOut();
+          //                   Navigator.pushAndRemoveUntil(
+          //                     context,
+          //                     MaterialPageRoute(
+          //                       builder: (context) => Authpage(),
+          //                     ),
+          //                     (route) => false,
+          //                   );
+          //                 },
+          //                 child: Text("OK"),
+          //               ),
+          //             ],
+          //           );
+          //         },
+          //       );
+          //     },
+          //     icon: Icon(Icons.logout_rounded, size: 28),
+          //   ),
+          // ),
         ],
       ),
       body: services.when(
@@ -91,6 +93,7 @@ class Homepage extends ConsumerWidget {
                               appBarTitle: services[index].name,
                               projectId: projectId,
                               projectDetailsLength: projectDetailsLength,
+                              isSuperUser: isSuperUser,
                             ),
                       ),
                     );
@@ -115,36 +118,59 @@ class Homepage extends ConsumerWidget {
                           padding: const EdgeInsets.only(top: 24.0),
                           child: IconButton(
                             onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    title: Text("Confirm"),
-                                    content: Text(
-                                      "Are you Sure you want to delete ?",
+                              if (isSuperUser) {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text("Confirm"),
+                                      content: Text(
+                                        "Are you Sure you want to delete ?",
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: Text("Cancel"),
+                                        ),
+                                        TextButton(
+                                          onPressed: () {
+                                            ref
+                                                .read(servicesProvider.notifier)
+                                                .deleteService(
+                                                  services[index].id,
+                                                );
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: Text("OK"),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
                                     ),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: Text("Cancel"),
-                                      ),
-                                      TextButton(
-                                        onPressed: () {
-                                          ref
-                                              .read(servicesProvider.notifier)
-                                              .deleteService(
-                                                services[index].id,
-                                              );
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: Text("OK"),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
+                                    backgroundColor: Colors.red,
+                                    showCloseIcon: true,
+                                    behavior: SnackBarBehavior.floating,
+                                    margin: EdgeInsets.only(
+                                      bottom: 50,
+                                      right: 20,
+                                      left: 20,
+                                    ),
+                                    content: Text(
+                                      "Users cannot access this",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    duration: Duration(seconds: 2),
+                                  ),
+                                );
+                              }
                             },
                             icon: Icon(Icons.delete),
                           ),
@@ -164,154 +190,183 @@ class Homepage extends ConsumerWidget {
       floatingActionButton: FloatingActionButton(
         enableFeedback: true,
         onPressed: () {
-          showModalBottomSheet(
-            isScrollControlled: true,
-            context: context,
-            builder: (context) {
-              return Padding(
-                padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).viewInsets.bottom,
-                ),
-                child: SingleChildScrollView(
-                  child: Container(
-                    decoration: BoxDecoration(),
-                    height: MediaQuery.of(context).size.height * 0.4,
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 32.0),
-                          child: Row(
+          if (isSuperUser) {
+            showModalBottomSheet(
+              isScrollControlled: true,
+              context: context,
+              builder: (context) {
+                return Padding(
+                  padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom,
+                  ),
+                  child: SingleChildScrollView(
+                    child: Container(
+                      decoration: BoxDecoration(),
+                      height: MediaQuery.of(context).size.height * 0.4,
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 32.0),
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 24.0),
+                                  child: Text(
+                                    "Enter your category details",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 24,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Row(
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.only(left: 24.0),
-                                child: Text(
-                                  "Enter your category details",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 24,
+                              Expanded(
+                                child: Container(
+                                  margin: EdgeInsets.all(16),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.red,
+                                      width: 0.2,
+                                    ),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: TextField(
+                                    controller: addCategoryTextfieldController,
+                                    decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: "Category name",
+                                      hintStyle: TextStyle(color: Colors.grey),
+                                      contentPadding: EdgeInsets.only(left: 12),
+                                    ),
                                   ),
                                 ),
                               ),
                             ],
                           ),
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Container(
-                                margin: EdgeInsets.all(16),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  margin: EdgeInsets.all(16),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.red,
+                                      width: 0.2,
+                                    ),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: TextField(
+                                    controller: addProjectTextfieldController,
+                                    decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: "Project Name",
+                                      hintStyle: TextStyle(color: Colors.grey),
+                                      contentPadding: EdgeInsets.only(left: 12),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  margin: EdgeInsets.all(16),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.red,
+                                      width: 0.2,
+                                    ),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: TextField(
+                                    controller: projectUrlTextfieldController,
+                                    decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: "Enter your project URL here",
+                                      hintStyle: TextStyle(color: Colors.grey),
+                                      contentPadding: EdgeInsets.only(left: 12),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
                                 decoration: BoxDecoration(
+                                  color: Colors.blue,
                                   border: Border.all(
-                                    color: Colors.red,
+                                    color: Colors.black,
                                     width: 0.2,
                                   ),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
-                                child: TextField(
-                                  controller: addCategoryTextfieldController,
-                                  decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    hintText: "Category name",
-                                    hintStyle: TextStyle(color: Colors.grey),
-                                    contentPadding: EdgeInsets.only(left: 12),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Container(
-                                margin: EdgeInsets.all(16),
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.red,
-                                    width: 0.2,
-                                  ),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: TextField(
-                                  controller: addProjectTextfieldController,
-                                  decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    hintText: "Project Name",
-                                    hintStyle: TextStyle(color: Colors.grey),
-                                    contentPadding: EdgeInsets.only(left: 12),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Container(
-                                margin: EdgeInsets.all(16),
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.red,
-                                    width: 0.2,
-                                  ),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: TextField(
-                                  controller: projectUrlTextfieldController,
-                                  decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    hintText: "Enter your project URL here",
-                                    hintStyle: TextStyle(color: Colors.grey),
-                                    contentPadding: EdgeInsets.only(left: 12),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                color: Colors.blue,
-                                border: Border.all(
-                                  color: Colors.black,
-                                  width: 0.2,
-                                ),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: IconButton(
-                                onPressed: () {
-                                  if (projectUrlTextfieldController.text
-                                      .isUrl()) {
-                                    if (addCategoryTextfieldController
-                                            .text
-                                            .isNotEmpty &&
-                                        addProjectTextfieldController
-                                            .text
-                                            .isNotEmpty &&
-                                        projectUrlTextfieldController
-                                            .text
-                                            .isNotEmpty) {
-                                      ref
-                                          .read(servicesProvider.notifier)
-                                          .addService(
-                                            addCategoryTextfieldController.text,
-                                            [
-                                              {
-                                                "name":
-                                                    addProjectTextfieldController
-                                                        .text,
-                                                "url":
-                                                    projectUrlTextfieldController
-                                                        .text,
-                                              },
-                                            ],
-                                          );
-                                      addCategoryTextfieldController.clear();
-                                      Navigator.pop(context);
+                                child: IconButton(
+                                  onPressed: () {
+                                    if (projectUrlTextfieldController.text
+                                        .isUrl()) {
+                                      if (addCategoryTextfieldController
+                                              .text
+                                              .isNotEmpty &&
+                                          addProjectTextfieldController
+                                              .text
+                                              .isNotEmpty &&
+                                          projectUrlTextfieldController
+                                              .text
+                                              .isNotEmpty) {
+                                        ref
+                                            .read(servicesProvider.notifier)
+                                            .addService(
+                                              addCategoryTextfieldController
+                                                  .text,
+                                              [
+                                                {
+                                                  "name":
+                                                      addProjectTextfieldController
+                                                          .text,
+                                                  "url":
+                                                      projectUrlTextfieldController
+                                                          .text,
+                                                },
+                                              ],
+                                            );
+                                        addCategoryTextfieldController.clear();
+                                        Navigator.pop(context);
+                                      } else {
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).showSnackBar(
+                                          SnackBar(
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                            backgroundColor: Colors.red,
+                                            behavior: SnackBarBehavior.floating,
+                                            margin: EdgeInsets.only(
+                                              bottom: 50,
+                                              left: 20,
+                                              right: 20,
+                                            ),
+                                            content: Text(
+                                              "Textfield empty !!!",
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                            duration: Duration(seconds: 3),
+                                            showCloseIcon: true,
+                                          ),
+                                        );
+                                      }
                                     } else {
                                       ScaffoldMessenger.of(
                                         context,
@@ -325,12 +380,15 @@ class Homepage extends ConsumerWidget {
                                           backgroundColor: Colors.red,
                                           behavior: SnackBarBehavior.floating,
                                           margin: EdgeInsets.only(
-                                            bottom: 50,
+                                            bottom:
+                                                MediaQuery.of(
+                                                  context,
+                                                ).viewInsets.bottom,
                                             left: 20,
                                             right: 20,
                                           ),
                                           content: Text(
-                                            "Textfield empty !!!",
+                                            "Not a valid URL",
                                             style: TextStyle(
                                               color: Colors.white,
                                             ),
@@ -340,46 +398,37 @@ class Homepage extends ConsumerWidget {
                                         ),
                                       );
                                     }
-                                  } else {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(
-                                            10,
-                                          ),
-                                        ),
-                                        backgroundColor: Colors.red,
-                                        behavior: SnackBarBehavior.floating,
-                                        margin: EdgeInsets.only(
-                                          bottom:
-                                              MediaQuery.of(
-                                                context,
-                                              ).viewInsets.bottom,
-                                          left: 20,
-                                          right: 20,
-                                        ),
-                                        content: Text(
-                                          "Not a valid URL",
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                        duration: Duration(seconds: 3),
-                                        showCloseIcon: true,
-                                      ),
-                                    );
-                                  }
-                                },
-                                icon: Icon(Icons.done),
+                                  },
+                                  icon: Icon(Icons.done),
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
+                );
+              },
+            );
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
                 ),
-              );
-            },
-          );
+                backgroundColor: Colors.red,
+                showCloseIcon: true,
+                behavior: SnackBarBehavior.floating,
+                margin: EdgeInsets.only(bottom: 50, right: 20, left: 20),
+                content: Text(
+                  "Users cannot access this",
+                  style: TextStyle(color: Colors.white),
+                ),
+                duration: Duration(seconds: 2),
+              ),
+            );
+          }
         },
         child: Icon(Icons.add),
       ),
