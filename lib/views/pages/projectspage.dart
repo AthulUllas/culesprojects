@@ -3,6 +3,7 @@ import 'package:culesprojects/views/pages/webviewpage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_regex/flutter_regex.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class Projectspage extends ConsumerWidget {
   const Projectspage({
@@ -22,6 +23,7 @@ class Projectspage extends ConsumerWidget {
     final detailsState = ref.watch(detailsProvider);
     final addProjectTextController = TextEditingController();
     final addProjectUrlTextController = TextEditingController();
+    final superUser = Supabase.instance.client.auth.currentUser!.email;
     return Scaffold(
       appBar: AppBar(
         title: Text(appBarTitle, style: TextStyle(fontWeight: FontWeight.bold)),
@@ -84,10 +86,26 @@ class Projectspage extends ConsumerWidget {
                         padding: const EdgeInsets.only(right: 24.0),
                         child: IconButton(
                           onPressed: () {
-                            ref.read(detailsProvider.notifier).removeDetail({
-                              'name': details[index]['name'],
-                              'url': details[index]['url'],
-                            });
+                            if (superUser == "culesapp1@gmail.com") {
+                              ref.read(detailsProvider.notifier).removeDetail({
+                                'name': details[index]['name'],
+                                'url': details[index]['url'],
+                              });
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  margin: EdgeInsets.only(
+                                    bottom: 50,
+                                    right: 20,
+                                    left: 20,
+                                  ),
+                                  behavior: SnackBarBehavior.floating,
+                                  content: Text("Users cannot access it"),
+                                  duration: Duration(milliseconds: 100),
+                                  showCloseIcon: true,
+                                ),
+                              );
+                            }
                           },
                           icon: Icon(Icons.delete, size: 26),
                         ),
@@ -106,122 +124,142 @@ class Projectspage extends ConsumerWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          showModalBottomSheet(
-            isScrollControlled: true,
-            context: context,
-            builder: (context) {
-              return Padding(
-                padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).viewInsets.bottom,
-                ),
-                child: SingleChildScrollView(
-                  child: Container(
-                    decoration: BoxDecoration(),
-                    height: MediaQuery.of(context).size.height * 0.3,
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 32.0),
-                          child: Row(
+          if (superUser == "culesapp1@gmail.com") {
+            showModalBottomSheet(
+              isScrollControlled: true,
+              context: context,
+              builder: (context) {
+                return Padding(
+                  padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom,
+                  ),
+                  child: SingleChildScrollView(
+                    child: Container(
+                      decoration: BoxDecoration(),
+                      height: MediaQuery.of(context).size.height * 0.3,
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 32.0),
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 24.0),
+                                  child: Text(
+                                    "Enter your project details",
+                                    style: TextStyle(
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Row(
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.only(left: 24.0),
-                                child: Text(
-                                  "Enter your project details",
-                                  style: TextStyle(
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.w400,
+                              Expanded(
+                                child: Container(
+                                  margin: EdgeInsets.all(16),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.red,
+                                      width: 0.2,
+                                    ),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: TextField(
+                                    controller: addProjectTextController,
+                                    decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: "Project Name",
+                                      hintStyle: TextStyle(color: Colors.grey),
+                                      contentPadding: EdgeInsets.only(left: 12),
+                                    ),
                                   ),
                                 ),
                               ),
                             ],
                           ),
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Container(
-                                margin: EdgeInsets.all(16),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  margin: EdgeInsets.all(16),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.red,
+                                      width: 0.2,
+                                    ),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: TextField(
+                                    controller: addProjectUrlTextController,
+                                    decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText:
+                                          "Enter the web URL of the project",
+                                      hintStyle: TextStyle(color: Colors.grey),
+                                      contentPadding: EdgeInsets.only(left: 12),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
                                 decoration: BoxDecoration(
+                                  color: Colors.blue,
                                   border: Border.all(
-                                    color: Colors.red,
+                                    color: Colors.black,
                                     width: 0.2,
                                   ),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
-                                child: TextField(
-                                  controller: addProjectTextController,
-                                  decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    hintText: "Project Name",
-                                    hintStyle: TextStyle(color: Colors.grey),
-                                    contentPadding: EdgeInsets.only(left: 12),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Container(
-                                margin: EdgeInsets.all(16),
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.red,
-                                    width: 0.2,
-                                  ),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: TextField(
-                                  controller: addProjectUrlTextController,
-                                  decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    hintText:
-                                        "Enter the web URL of the project",
-                                    hintStyle: TextStyle(color: Colors.grey),
-                                    contentPadding: EdgeInsets.only(left: 12),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                color: Colors.blue,
-                                border: Border.all(
-                                  color: Colors.black,
-                                  width: 0.2,
-                                ),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: IconButton(
-                                onPressed: () {
-                                  if (addProjectUrlTextController.text
-                                      .isUrl()) {
-                                    if (addProjectTextController
-                                            .text
-                                            .isNotEmpty &&
-                                        addProjectUrlTextController
-                                            .text
-                                            .isNotEmpty) {
-                                      ref
-                                          .read(detailsProvider.notifier)
-                                          .addDetail({
-                                            'name':
-                                                addProjectTextController.text,
-                                            'url':
-                                                addProjectUrlTextController
-                                                    .text,
-                                          });
-                                      addProjectTextController.clear();
-                                      addProjectUrlTextController.clear();
-                                      Navigator.pop(context);
+                                child: IconButton(
+                                  onPressed: () {
+                                    if (addProjectUrlTextController.text
+                                        .isUrl()) {
+                                      if (addProjectTextController
+                                              .text
+                                              .isNotEmpty &&
+                                          addProjectUrlTextController
+                                              .text
+                                              .isNotEmpty) {
+                                        ref
+                                            .read(detailsProvider.notifier)
+                                            .addDetail({
+                                              'name':
+                                                  addProjectTextController.text,
+                                              'url':
+                                                  addProjectUrlTextController
+                                                      .text,
+                                            });
+                                        addProjectTextController.clear();
+                                        addProjectUrlTextController.clear();
+                                        Navigator.pop(context);
+                                      } else {
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).showSnackBar(
+                                          SnackBar(
+                                            behavior: SnackBarBehavior.floating,
+                                            margin: EdgeInsets.only(
+                                              bottom: 50,
+                                              left: 20,
+                                              right: 20,
+                                            ),
+                                            content: Text(
+                                              "Textfield empty !!!",
+                                            ),
+                                            duration: Duration(seconds: 3),
+                                            showCloseIcon: true,
+                                          ),
+                                        );
+                                      }
                                     } else {
                                       ScaffoldMessenger.of(
                                         context,
@@ -233,40 +271,36 @@ class Projectspage extends ConsumerWidget {
                                             left: 20,
                                             right: 20,
                                           ),
-                                          content: Text("Textfield empty !!!"),
+                                          content: Text("Not a valid URL"),
                                           duration: Duration(seconds: 3),
                                           showCloseIcon: true,
                                         ),
                                       );
                                     }
-                                  } else {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        behavior: SnackBarBehavior.floating,
-                                        margin: EdgeInsets.only(
-                                          bottom: 50,
-                                          left: 20,
-                                          right: 20,
-                                        ),
-                                        content: Text("Not a valid URL"),
-                                        duration: Duration(seconds: 3),
-                                        showCloseIcon: true,
-                                      ),
-                                    );
-                                  }
-                                },
-                                icon: Icon(Icons.done),
+                                  },
+                                  icon: Icon(Icons.done),
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              );
-            },
-          );
+                );
+              },
+            );
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                margin: EdgeInsets.only(bottom: 50, right: 20, left: 20),
+                behavior: SnackBarBehavior.floating,
+                content: Text("Users cannot access it"),
+                duration: Duration(milliseconds: 100),
+                showCloseIcon: true,
+              ),
+            );
+          }
         },
         child: Icon(Icons.add),
       ),

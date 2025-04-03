@@ -13,7 +13,7 @@ class Homepage extends ConsumerWidget {
     final addCategoryTextfieldController = TextEditingController();
     final addProjectTextfieldController = TextEditingController();
     final projectUrlTextfieldController = TextEditingController();
-    int projectsLength = 0;
+    final superUser = Supabase.instance.client.auth.currentUser!.email;
     final services = ref.watch(servicesProvider);
     return Scaffold(
       appBar: AppBar(
@@ -84,9 +84,25 @@ class Homepage extends ConsumerWidget {
                           padding: const EdgeInsets.only(top: 24.0),
                           child: IconButton(
                             onPressed: () {
-                              ref
-                                  .read(servicesProvider.notifier)
-                                  .deleteService(services[index].id);
+                              if (superUser == "culesapp1@gmail.com") {
+                                ref
+                                    .read(servicesProvider.notifier)
+                                    .deleteService(services[index].id);
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    margin: EdgeInsets.only(
+                                      bottom: 50,
+                                      right: 20,
+                                      left: 20,
+                                    ),
+                                    behavior: SnackBarBehavior.floating,
+                                    content: Text("Users cannot access it"),
+                                    duration: Duration(milliseconds: 100),
+                                    showCloseIcon: true,
+                                  ),
+                                );
+                              }
                             },
                             icon: Icon(Icons.delete),
                           ),
@@ -100,15 +116,13 @@ class Homepage extends ConsumerWidget {
           );
         },
         loading: () => Center(child: CircularProgressIndicator()),
-        error: (error, Stack) => Center(child: Text("Error : $error")),
+        error: (error, stack) => Center(child: Text("Error : $error")),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
         enableFeedback: true,
         onPressed: () {
-          final superUser = Supabase.instance.client.auth.currentUser!.email;
-          if (superUser == "athulullas72@gmail.com" ||
-              superUser == "culesapp1@gmail.com") {
+          if (superUser == "culesapp1@gmail.com") {
             showModalBottomSheet(
               isScrollControlled: true,
               context: context,
@@ -256,7 +270,6 @@ class Homepage extends ConsumerWidget {
                                                 },
                                               ],
                                             );
-                                        projectsLength += projectsLength;
                                         addCategoryTextfieldController.clear();
                                         Navigator.pop(context);
                                       } else {
