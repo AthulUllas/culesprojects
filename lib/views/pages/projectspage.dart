@@ -222,6 +222,22 @@ class Projectspage extends ConsumerWidget {
                                       addProjectTextController.clear();
                                       addProjectUrlTextController.clear();
                                       Navigator.pop(context);
+                                    } else {
+                                      ScaffoldMessenger.of(
+                                        context,
+                                      ).showSnackBar(
+                                        SnackBar(
+                                          behavior: SnackBarBehavior.floating,
+                                          margin: EdgeInsets.only(
+                                            bottom: 50,
+                                            left: 20,
+                                            right: 20,
+                                          ),
+                                          content: Text("Textfield empty !!!"),
+                                          duration: Duration(seconds: 3),
+                                          showCloseIcon: true,
+                                        ),
+                                      );
                                     }
                                   } else {
                                     ScaffoldMessenger.of(context).showSnackBar(
