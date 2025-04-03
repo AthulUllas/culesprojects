@@ -14,7 +14,7 @@ class Homepage extends ConsumerWidget {
     final addCategoryTextfieldController = TextEditingController();
     final addProjectTextfieldController = TextEditingController();
     final projectUrlTextfieldController = TextEditingController();
-    final superUser = Supabase.instance.client.auth.currentUser!.email;
+    // final superUser = Supabase.instance.client.auth.currentUser!.email;
     final services = ref.watch(servicesProvider);
     return Scaffold(
       appBar: AppBar(
