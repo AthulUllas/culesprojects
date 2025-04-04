@@ -78,62 +78,46 @@ class Projectspage extends ConsumerWidget {
                       Padding(
                         padding: const EdgeInsets.only(right: 24.0),
                         child: IconButton(
-                          onPressed: () {
-                            if (isSuperUser) {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    title: Text("Confirm"),
-                                    content: Text(
-                                      "Are you Sure you want to delete ?",
-                                    ),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: Text("Cancel"),
-                                      ),
-                                      TextButton(
-                                        onPressed: () {
-                                          ref
-                                              .read(detailsProvider.notifier)
-                                              .removeDetail({
-                                                'name': details[index]['name'],
-                                                'url': details[index]['url'],
-                                              });
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: Text("OK"),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  backgroundColor: Colors.red,
-                                  showCloseIcon: true,
-                                  behavior: SnackBarBehavior.floating,
-                                  margin: EdgeInsets.only(
-                                    bottom: 50,
-                                    right: 20,
-                                    left: 20,
-                                  ),
-                                  content: Text(
-                                    "Users cannot access it",
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                  duration: Duration(seconds: 2),
-                                ),
-                              );
-                            }
-                          },
+                          onPressed:
+                              isSuperUser
+                                  ? () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: Text("Confirm"),
+                                          content: Text(
+                                            "Are you Sure you want to delete ?",
+                                          ),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: Text("Cancel"),
+                                            ),
+                                            TextButton(
+                                              onPressed: () {
+                                                ref
+                                                    .read(
+                                                      detailsProvider.notifier,
+                                                    )
+                                                    .removeDetail({
+                                                      'name':
+                                                          details[index]['name'],
+                                                      'url':
+                                                          details[index]['url'],
+                                                    });
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: Text("OK"),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  }
+                                  : null,
                           icon: Icon(Icons.delete, size: 26),
                         ),
                       ),
