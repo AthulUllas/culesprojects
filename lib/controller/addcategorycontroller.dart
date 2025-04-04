@@ -104,6 +104,19 @@ class ServicesNotifier extends AsyncNotifier<List<Service>> {
   bool _isEqual(Map<String, dynamic> a, Map<String, dynamic> b) {
     return a.toString() == b.toString(); // Simple comparison method
   }
+
+  Future<void> updateServiceName({
+    required String id,
+    required String newName,
+  }) async {
+    try {
+      await supabase.from('data_base').update({"name": newName}).eq("id", id);
+
+      state = AsyncData(await fetchServices());
+    } catch (error) {
+      state = AsyncError(error, StackTrace.current);
+    }
+  }
 }
 
 final servicesProvider = AsyncNotifierProvider<ServicesNotifier, List<Service>>(
