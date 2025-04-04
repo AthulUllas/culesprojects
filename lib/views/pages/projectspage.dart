@@ -55,8 +55,7 @@ class Projectspage extends ConsumerWidget {
                 child: Container(
                   margin: EdgeInsets.all(14),
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black, width: 0.3),
-                    color: const Color.fromARGB(255, 246, 219, 216),
+                    border: Border.all(color: Colors.red, width: 0.3),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   width: MediaQuery.of(context).size.width * 0.6,

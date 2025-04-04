@@ -1,10 +1,8 @@
 import 'package:culesprojects/controller/addcategorycontroller.dart';
-import 'package:culesprojects/features/authentication/authpage.dart';
 import 'package:culesprojects/views/pages/projectspage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_regex/flutter_regex.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class Homepage extends ConsumerWidget {
   const Homepage({super.key, required this.isSuperUser});
