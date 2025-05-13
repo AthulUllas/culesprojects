@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebViewPage extends StatelessWidget {
@@ -20,7 +21,18 @@ class WebViewPage extends StatelessWidget {
         automaticallyImplyLeading: true,
         title: Text(appBarTitle, style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
-        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.share))],
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 8),
+            child: IconButton(
+              onPressed: () {
+                final params = ShareParams(uri: webViewUrl);
+                SharePlus.instance.share(params);
+              },
+              icon: Icon(Icons.share),
+            ),
+          ),
+        ],
       ),
       body: SafeArea(child: WebViewWidget(controller: webViewController)),
     );
