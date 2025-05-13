@@ -20,6 +20,7 @@ class WebViewPage extends StatelessWidget {
         automaticallyImplyLeading: true,
         title: Text(appBarTitle, style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
+        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.share))],
       ),
       body: SafeArea(child: WebViewWidget(controller: webViewController)),
     );
