@@ -200,6 +200,7 @@ class Homepage extends ConsumerWidget {
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
                               ),
+                              textAlign: TextAlign.center,
                             ),
                           ),
                         ],
