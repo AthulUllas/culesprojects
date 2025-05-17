@@ -23,6 +23,7 @@ class AuthVerify extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
             ),
             child: TextField(
+              keyboardType: TextInputType.number,
               controller: authController,
               decoration: InputDecoration(
                 border: InputBorder.none,

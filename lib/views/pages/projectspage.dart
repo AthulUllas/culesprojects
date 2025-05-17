@@ -267,7 +267,7 @@ class Projectspage extends ConsumerWidget {
               },
             );
           } else {
-            snackBar("Users cannot access it", context);
+            snackBar("Users cannot access", context);
           }
         },
         child: Icon(EvaIcons.plus),

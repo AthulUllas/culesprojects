@@ -506,7 +506,7 @@ class Homepage extends ConsumerWidget {
               },
             );
           } else {
-            snackBar("Users cannot access this", context);
+            snackBar("Users cannot access", context);
           }
         },
         child: Icon(EvaIcons.plus),
