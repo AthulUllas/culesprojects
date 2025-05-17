@@ -25,7 +25,7 @@ Future<void> snackBar(String message, BuildContext context) async {
         behavior: FlashBehavior.floating,
         margin: EdgeInsets.only(left: 20, right: 20, top: 24),
         backgroundColor: colors.primaryColor,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         forwardAnimationCurve: Curves.easeInOutCubicEmphasized,
       );
     },

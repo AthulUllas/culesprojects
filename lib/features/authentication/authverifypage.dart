@@ -1,4 +1,6 @@
 import 'package:culesprojects/secrets/authsecret.dart';
+import 'package:culesprojects/utils/colors.dart';
+import 'package:culesprojects/utils/snackbar.dart';
 import 'package:culesprojects/views/pages/homepage.dart';
 import 'package:flutter/material.dart';
 
@@ -8,6 +10,7 @@ class AuthVerify extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final authController = TextEditingController();
+    final colors = Colours();
     bool isSuperUser;
     return Scaffold(
       body: Column(
@@ -16,7 +19,7 @@ class AuthVerify extends StatelessWidget {
           Container(
             margin: EdgeInsets.all(16),
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.red, width: 0.2),
+              border: Border.all(color: colors.primaryColor, width: 0.2),
               borderRadius: BorderRadius.circular(10),
             ),
             child: TextField(
@@ -24,7 +27,7 @@ class AuthVerify extends StatelessWidget {
               decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: "Enter auth number",
-                hintStyle: TextStyle(color: Colors.grey),
+                hintStyle: TextStyle(color: colors.textFieldHintColor),
                 contentPadding: EdgeInsets.only(left: 12),
               ),
             ),
@@ -50,35 +53,23 @@ class AuthVerify extends StatelessWidget {
                   (route) => false,
                 );
               } else {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    backgroundColor: Colors.red,
-                    showCloseIcon: true,
-                    behavior: SnackBarBehavior.floating,
-                    margin: EdgeInsets.only(bottom: 50, right: 20, left: 20),
-                    content: Text(
-                      "Auth wrong",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    duration: Duration(seconds: 2),
-                  ),
-                );
+                snackBar("Auth wrong", context);
               }
             },
             child: Container(
               height: 50,
               width: 120,
               decoration: BoxDecoration(
-                color: Colors.black,
+                color: colors.primaryTextColor,
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Center(
                 child: Text(
                   "Continue",
-                  style: TextStyle(color: Colors.white, fontSize: 18),
+                  style: TextStyle(
+                    color: colors.secondaryTextColor,
+                    fontSize: 18,
+                  ),
                 ),
               ),
             ),

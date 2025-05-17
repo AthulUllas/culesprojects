@@ -1,4 +1,6 @@
 import 'package:culesprojects/controller/addcategorycontroller.dart';
+import 'package:culesprojects/utils/colors.dart';
+import 'package:culesprojects/utils/snackbar.dart';
 import 'package:culesprojects/views/pages/projectspage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_regex/flutter_regex.dart';
@@ -16,14 +18,16 @@ class Homepage extends ConsumerWidget {
     final addProjectTextfieldController = TextEditingController();
     final projectUrlTextfieldController = TextEditingController();
     final newCategoryNameTextfieldController = TextEditingController();
-    // final superUser = Supabase.instance.client.auth.currentUser!.email;
     final services = ref.watch(servicesProvider);
+    final colors = Colours();
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Image.asset("assets/images/unicule logo.png", scale: 6),
         centerTitle: true,
-        shape: Border(bottom: BorderSide(color: Colors.black, width: 0.1)),
+        shape: Border(
+          bottom: BorderSide(color: colors.primaryTextColor, width: 0.1),
+        ),
       ),
       body: services.when(
         data: (services) {
@@ -60,7 +64,10 @@ class Homepage extends ConsumerWidget {
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: Colors.red, width: 0.3),
+                      border: Border.all(
+                        color: colors.primaryColor,
+                        width: 0.3,
+                      ),
                     ),
                     child: Center(
                       child: Column(
@@ -127,7 +134,8 @@ class Homepage extends ConsumerWidget {
                                                   margin: EdgeInsets.all(16),
                                                   decoration: BoxDecoration(
                                                     border: Border.all(
-                                                      color: Colors.red,
+                                                      color:
+                                                          colors.primaryColor,
                                                       width: 0.2,
                                                     ),
                                                     borderRadius:
@@ -142,7 +150,9 @@ class Homepage extends ConsumerWidget {
                                                       border: InputBorder.none,
                                                       hintText: "Category name",
                                                       hintStyle: TextStyle(
-                                                        color: Colors.grey,
+                                                        color:
+                                                            colors
+                                                                .textFieldHintColor,
                                                       ),
                                                       contentPadding:
                                                           EdgeInsets.only(
@@ -196,7 +206,7 @@ class Homepage extends ConsumerWidget {
                             child: Text(
                               services[index].name,
                               style: TextStyle(
-                                color: Colors.black,
+                                color: colors.primaryTextColor,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
                               ),
@@ -258,7 +268,7 @@ class Homepage extends ConsumerWidget {
                                   margin: EdgeInsets.all(16),
                                   decoration: BoxDecoration(
                                     border: Border.all(
-                                      color: Colors.red,
+                                      color: colors.primaryColor,
                                       width: 0.2,
                                     ),
                                     borderRadius: BorderRadius.circular(10),
@@ -268,7 +278,9 @@ class Homepage extends ConsumerWidget {
                                     decoration: InputDecoration(
                                       border: InputBorder.none,
                                       hintText: "Category name",
-                                      hintStyle: TextStyle(color: Colors.grey),
+                                      hintStyle: TextStyle(
+                                        color: colors.textFieldHintColor,
+                                      ),
                                       contentPadding: EdgeInsets.only(left: 12),
                                     ),
                                   ),
@@ -283,7 +295,7 @@ class Homepage extends ConsumerWidget {
                                   margin: EdgeInsets.all(16),
                                   decoration: BoxDecoration(
                                     border: Border.all(
-                                      color: Colors.red,
+                                      color: colors.primaryColor,
                                       width: 0.2,
                                     ),
                                     borderRadius: BorderRadius.circular(10),
@@ -293,7 +305,9 @@ class Homepage extends ConsumerWidget {
                                     decoration: InputDecoration(
                                       border: InputBorder.none,
                                       hintText: "Project Name",
-                                      hintStyle: TextStyle(color: Colors.grey),
+                                      hintStyle: TextStyle(
+                                        color: colors.textFieldHintColor,
+                                      ),
                                       contentPadding: EdgeInsets.only(left: 12),
                                     ),
                                   ),
@@ -308,7 +322,7 @@ class Homepage extends ConsumerWidget {
                                   margin: EdgeInsets.all(16),
                                   decoration: BoxDecoration(
                                     border: Border.all(
-                                      color: Colors.red,
+                                      color: colors.primaryColor,
                                       width: 0.2,
                                     ),
                                     borderRadius: BorderRadius.circular(10),
@@ -318,7 +332,9 @@ class Homepage extends ConsumerWidget {
                                     decoration: InputDecoration(
                                       border: InputBorder.none,
                                       hintText: "Enter your project URL here",
-                                      hintStyle: TextStyle(color: Colors.grey),
+                                      hintStyle: TextStyle(
+                                        color: colors.textFieldHintColor,
+                                      ),
                                       contentPadding: EdgeInsets.only(left: 12),
                                     ),
                                   ),
@@ -331,9 +347,9 @@ class Homepage extends ConsumerWidget {
                             children: [
                               Container(
                                 decoration: BoxDecoration(
-                                  color: Colors.blue,
+                                  color: colors.doneButtonColor,
                                   border: Border.all(
-                                    color: Colors.black,
+                                    color: colors.primaryTextColor,
                                     width: 0.2,
                                   ),
                                   borderRadius: BorderRadius.circular(10),
@@ -370,62 +386,13 @@ class Homepage extends ConsumerWidget {
                                         addCategoryTextfieldController.clear();
                                         Navigator.pop(context);
                                       } else {
-                                        ScaffoldMessenger.of(
+                                        snackBar(
+                                          "Textfield empty !!!",
                                           context,
-                                        ).showSnackBar(
-                                          SnackBar(
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                            ),
-                                            backgroundColor: Colors.red,
-                                            behavior: SnackBarBehavior.floating,
-                                            margin: EdgeInsets.only(
-                                              bottom: 50,
-                                              left: 20,
-                                              right: 20,
-                                            ),
-                                            content: Text(
-                                              "Textfield empty !!!",
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                            duration: Duration(seconds: 3),
-                                            showCloseIcon: true,
-                                          ),
                                         );
                                       }
                                     } else {
-                                      ScaffoldMessenger.of(
-                                        context,
-                                      ).showSnackBar(
-                                        SnackBar(
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(
-                                              10,
-                                            ),
-                                          ),
-                                          backgroundColor: Colors.red,
-                                          behavior: SnackBarBehavior.floating,
-                                          margin: EdgeInsets.only(
-                                            bottom:
-                                                MediaQuery.of(
-                                                  context,
-                                                ).viewInsets.bottom,
-                                            left: 20,
-                                            right: 20,
-                                          ),
-                                          content: Text(
-                                            "Not a valid URL",
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                          duration: Duration(seconds: 3),
-                                          showCloseIcon: true,
-                                        ),
-                                      );
+                                      snackBar("Not a valid URL", context);
                                     }
                                   },
                                   icon: Icon(Icons.done),
@@ -441,22 +408,7 @@ class Homepage extends ConsumerWidget {
               },
             );
           } else {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                backgroundColor: Colors.red,
-                showCloseIcon: true,
-                behavior: SnackBarBehavior.floating,
-                margin: EdgeInsets.only(bottom: 50, right: 20, left: 20),
-                content: Text(
-                  "Users cannot access this",
-                  style: TextStyle(color: Colors.white),
-                ),
-                duration: Duration(seconds: 2),
-              ),
-            );
+            snackBar("Users cannot access this", context);
           }
         },
         child: Icon(EvaIcons.plus),
