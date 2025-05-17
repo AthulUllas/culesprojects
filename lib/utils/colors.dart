@@ -6,4 +6,5 @@ class Colours {
   final Color secondaryTextColor = Colors.white;
   final Color textFieldHintColor = Colors.grey;
   final Color doneButtonColor = Colors.blue;
+  final Color okButtonColor = Colors.lightGreen;
 }

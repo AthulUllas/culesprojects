@@ -1,4 +1,5 @@
 import 'package:culesprojects/controller/addcategorycontroller.dart';
+import 'package:culesprojects/utils/alertbox.dart';
 import 'package:culesprojects/utils/colors.dart';
 import 'package:culesprojects/utils/snackbar.dart';
 import 'package:culesprojects/views/pages/projectspage.dart';
@@ -125,73 +126,188 @@ class Homepage extends ConsumerWidget {
                                 onPressed:
                                     isSuperUser
                                         ? () {
-                                          showDialog(
+                                          showModalBottomSheet(
+                                            isScrollControlled: true,
                                             context: context,
-                                            builder: (BuildContext context) {
-                                              return AlertDialog(
-                                                title: Text("Edit"),
-                                                content: Container(
-                                                  margin: EdgeInsets.all(16),
-                                                  decoration: BoxDecoration(
-                                                    border: Border.all(
-                                                      color:
-                                                          colors.primaryColor,
-                                                      width: 0.2,
-                                                    ),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                          10,
+                                            builder: (context) {
+                                              return Padding(
+                                                padding: EdgeInsets.only(
+                                                  bottom:
+                                                      MediaQuery.of(
+                                                        context,
+                                                      ).viewInsets.bottom,
+                                                ),
+                                                child: SingleChildScrollView(
+                                                  child: Container(
+                                                    decoration: BoxDecoration(),
+                                                    height:
+                                                        MediaQuery.of(
+                                                          context,
+                                                        ).size.height *
+                                                        0.3,
+                                                    child: Column(
+                                                      children: [
+                                                        Row(
+                                                          children: [
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsets.only(
+                                                                    left: 24.0,
+                                                                    top: 24,
+                                                                  ),
+                                                              child: Text(
+                                                                "Change category name",
+                                                                style: TextStyle(
+                                                                  fontSize: 22,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
                                                         ),
-                                                  ),
-                                                  child: TextField(
-                                                    controller:
-                                                        newCategoryNameTextfieldController,
-                                                    decoration: InputDecoration(
-                                                      border: InputBorder.none,
-                                                      hintText: "Category name",
-                                                      hintStyle: TextStyle(
-                                                        color:
-                                                            colors
-                                                                .textFieldHintColor,
-                                                      ),
-                                                      contentPadding:
-                                                          EdgeInsets.only(
-                                                            left: 12,
+                                                        Row(
+                                                          children: [
+                                                            Expanded(
+                                                              child: Container(
+                                                                margin:
+                                                                    EdgeInsets.all(
+                                                                      24,
+                                                                    ),
+                                                                decoration: BoxDecoration(
+                                                                  border: Border.all(
+                                                                    color:
+                                                                        colors
+                                                                            .primaryColor,
+                                                                    width: 0.5,
+                                                                  ),
+                                                                  borderRadius:
+                                                                      BorderRadius.circular(
+                                                                        10,
+                                                                      ),
+                                                                ),
+                                                                child: TextField(
+                                                                  controller:
+                                                                      newCategoryNameTextfieldController,
+                                                                  decoration: InputDecoration(
+                                                                    border:
+                                                                        InputBorder
+                                                                            .none,
+                                                                    hintText:
+                                                                        "Category name",
+                                                                    hintStyle:
+                                                                        TextStyle(
+                                                                          color:
+                                                                              colors.textFieldHintColor,
+                                                                        ),
+                                                                    contentPadding:
+                                                                        EdgeInsets.only(
+                                                                          left:
+                                                                              12,
+                                                                        ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets.only(
+                                                                top: 16.0,
+                                                              ),
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceEvenly,
+                                                            children: [
+                                                              GestureDetector(
+                                                                onTap: () {
+                                                                  Navigator.pop(
+                                                                    context,
+                                                                  );
+                                                                },
+                                                                child: Container(
+                                                                  height: 50,
+                                                                  width: 110,
+                                                                  decoration: BoxDecoration(
+                                                                    color:
+                                                                        colors
+                                                                            .doneButtonColor,
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                          10,
+                                                                        ),
+                                                                    border: Border.all(
+                                                                      color:
+                                                                          colors
+                                                                              .primaryTextColor,
+                                                                      width:
+                                                                          0.5,
+                                                                    ),
+                                                                  ),
+                                                                  child: Center(
+                                                                    child: Text(
+                                                                      "Cancel",
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              GestureDetector(
+                                                                onTap: () {
+                                                                  ref
+                                                                      .read(
+                                                                        servicesProvider
+                                                                            .notifier,
+                                                                      )
+                                                                      .updateServiceName(
+                                                                        id:
+                                                                            services[index].id,
+                                                                        newName:
+                                                                            newCategoryNameTextfieldController.text,
+                                                                      );
+                                                                  snackBar(
+                                                                    "Name changed",
+                                                                    context,
+                                                                  );
+                                                                  Navigator.of(
+                                                                    context,
+                                                                  ).pop();
+                                                                },
+                                                                child: Container(
+                                                                  height: 50,
+                                                                  width: 110,
+                                                                  decoration: BoxDecoration(
+                                                                    color:
+                                                                        colors
+                                                                            .okButtonColor,
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                          10,
+                                                                        ),
+                                                                    border: Border.all(
+                                                                      color:
+                                                                          colors
+                                                                              .primaryTextColor,
+                                                                      width:
+                                                                          0.5,
+                                                                    ),
+                                                                  ),
+                                                                  child: Center(
+                                                                    child: Text(
+                                                                      "OK",
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ],
                                                           ),
+                                                        ),
+                                                      ],
                                                     ),
                                                   ),
                                                 ),
-                                                actions: [
-                                                  TextButton(
-                                                    onPressed: () {
-                                                      Navigator.of(
-                                                        context,
-                                                      ).pop();
-                                                    },
-                                                    child: Text("Cancel"),
-                                                  ),
-                                                  TextButton(
-                                                    onPressed: () {
-                                                      ref
-                                                          .read(
-                                                            servicesProvider
-                                                                .notifier,
-                                                          )
-                                                          .updateServiceName(
-                                                            id:
-                                                                services[index]
-                                                                    .id,
-                                                            newName:
-                                                                newCategoryNameTextfieldController
-                                                                    .text,
-                                                          );
-                                                      Navigator.of(
-                                                        context,
-                                                      ).pop();
-                                                    },
-                                                    child: Text("OK"),
-                                                  ),
-                                                ],
                                               );
                                             },
                                           );
