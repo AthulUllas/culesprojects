@@ -43,7 +43,7 @@ dependencies:
   share_plus: ^11.0.0
   icons_plus: ^5.0.0
   flash: ^3.1.1
-  flutter_webkul_alert_box: ^0.1.2
+  quickalert: ^1.1.0
 
 dev_dependencies:
   flutter_test:

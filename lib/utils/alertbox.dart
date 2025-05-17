@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_webkul_alert_box/flutter_webkul_alert_box.dart';
+import 'package:quickalert/quickalert.dart';
 
 void alertBox(
   BuildContext context,
+  QuickAlertType type,
+  void Function() confirmFun,
+  void Function() cancelFun,
   String title,
-  Widget widget,
-  List<Widget> actions,
 ) {
-  mobikulAlertBox(context, title: title, icon: widget, actions: actions);
+  QuickAlert.show(
+    context: context,
+    title: title,
+    type: type,
+    showCancelBtn: true,
+    onConfirmBtnTap: confirmFun,
+    onCancelBtnTap: cancelFun,
+    animType: QuickAlertAnimType.slideInUp,
+  );
 }

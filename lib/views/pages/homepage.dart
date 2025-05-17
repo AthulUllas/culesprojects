@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_regex/flutter_regex.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:quickalert/models/quickalert_type.dart';
 
 class Homepage extends ConsumerWidget {
   const Homepage({super.key, required this.isSuperUser});
@@ -81,42 +82,23 @@ class Homepage extends ConsumerWidget {
                                 onPressed:
                                     isSuperUser
                                         ? () {
-                                          showDialog(
-                                            context: context,
-                                            builder: (BuildContext context) {
-                                              return AlertDialog(
-                                                title: Text("Confirm"),
-                                                content: Text(
-                                                  "Are you Sure you want to delete ?",
-                                                ),
-                                                actions: [
-                                                  TextButton(
-                                                    onPressed: () {
-                                                      Navigator.of(
-                                                        context,
-                                                      ).pop();
-                                                    },
-                                                    child: Text("Cancel"),
-                                                  ),
-                                                  TextButton(
-                                                    onPressed: () {
-                                                      ref
-                                                          .read(
-                                                            servicesProvider
-                                                                .notifier,
-                                                          )
-                                                          .deleteService(
-                                                            services[index].id,
-                                                          );
-                                                      Navigator.of(
-                                                        context,
-                                                      ).pop();
-                                                    },
-                                                    child: Text("OK"),
-                                                  ),
-                                                ],
-                                              );
+                                          alertBox(
+                                            context,
+                                            QuickAlertType.warning,
+                                            () {
+                                              ref
+                                                  .read(
+                                                    servicesProvider.notifier,
+                                                  )
+                                                  .deleteService(
+                                                    services[index].id,
+                                                  );
+                                              Navigator.of(context).pop();
                                             },
+                                            () {
+                                              Navigator.pop(context);
+                                            },
+                                            "Delete the category ?",
                                           );
                                         }
                                         : null,

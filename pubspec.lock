@@ -336,14 +336,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_webkul_alert_box:
-    dependency: "direct main"
-    description:
-      name: flutter_webkul_alert_box
-      sha256: d8a850eb0e0b7d096cc6083822c7e283b86bbd3c988b945f8dbced18abc464e1
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.1.2"
   freezed_annotation:
     dependency: transitive
     description:
@@ -664,6 +656,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.5.0"
+  quickalert:
+    dependency: "direct main"
+    description:
+      name: quickalert
+      sha256: b5d62b1e20b08cc0ff5f40b6da519bdc7a5de6082f13d90572cf4e72eea56c5e
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.0"
   realtime_client:
     dependency: transitive
     description:
