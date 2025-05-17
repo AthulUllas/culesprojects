@@ -1,4 +1,5 @@
 import 'package:culesprojects/controller/addprojectscontroller.dart';
+import 'package:culesprojects/utils/alertbox.dart';
 import 'package:culesprojects/utils/colors.dart';
 import 'package:culesprojects/utils/snackbar.dart';
 import 'package:culesprojects/views/pages/webviewpage.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_regex/flutter_regex.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:quickalert/models/quickalert_type.dart';
 
 class Projectspage extends ConsumerWidget {
   const Projectspage({
@@ -85,40 +87,22 @@ class Projectspage extends ConsumerWidget {
                           onPressed:
                               isSuperUser
                                   ? () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return AlertDialog(
-                                          title: Text("Confirm"),
-                                          content: Text(
-                                            "Are you Sure you want to delete ?",
-                                          ),
-                                          actions: [
-                                            TextButton(
-                                              onPressed: () {
-                                                Navigator.of(context).pop();
-                                              },
-                                              child: Text("Cancel"),
-                                            ),
-                                            TextButton(
-                                              onPressed: () {
-                                                ref
-                                                    .read(
-                                                      detailsProvider.notifier,
-                                                    )
-                                                    .removeDetail({
-                                                      'name':
-                                                          details[index]['name'],
-                                                      'url':
-                                                          details[index]['url'],
-                                                    });
-                                                Navigator.of(context).pop();
-                                              },
-                                              child: Text("OK"),
-                                            ),
-                                          ],
-                                        );
+                                    alertBox(
+                                      context,
+                                      QuickAlertType.warning,
+                                      () {
+                                        ref
+                                            .read(detailsProvider.notifier)
+                                            .removeDetail({
+                                              'name': details[index]['name'],
+                                              'url': details[index]['url'],
+                                            });
+                                        Navigator.of(context).pop();
                                       },
+                                      () {
+                                        Navigator.pop(context);
+                                      },
+                                      "Delete the project ?",
                                     );
                                   }
                                   : null,
