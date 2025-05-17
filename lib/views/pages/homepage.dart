@@ -3,6 +3,7 @@ import 'package:culesprojects/views/pages/projectspage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_regex/flutter_regex.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:icons_plus/icons_plus.dart';
 
 class Homepage extends ConsumerWidget {
   const Homepage({super.key, required this.isSuperUser});
@@ -23,47 +24,6 @@ class Homepage extends ConsumerWidget {
         title: Image.asset("assets/images/unicule logo.png", scale: 6),
         centerTitle: true,
         shape: Border(bottom: BorderSide(color: Colors.black, width: 0.1)),
-        actions: [
-          // Padding(
-          //   padding: const EdgeInsets.only(right: 12.0),
-          //   child: IconButton(
-          //     onPressed: () {
-          //       showDialog(
-          //         context: context,
-          //         builder: (BuildContext context) {
-          //           return AlertDialog(
-          //             title: Text("Sign Out"),
-          //             content: Text("Are you sure you want to Logout ?"),
-          //             actions: [
-          //               TextButton(
-          //                 onPressed: () {
-          //                   Navigator.of(context).pop();
-          //                 },
-          //                 child: Text("Cancel"),
-          //               ),
-          //               TextButton(
-          //                 onPressed: () {
-          //                   final supaBase = Supabase.instance.client;
-          //                   supaBase.auth.signOut();
-          //                   Navigator.pushAndRemoveUntil(
-          //                     context,
-          //                     MaterialPageRoute(
-          //                       builder: (context) => Authpage(),
-          //                     ),
-          //                     (route) => false,
-          //                   );
-          //                 },
-          //                 child: Text("OK"),
-          //               ),
-          //             ],
-          //           );
-          //         },
-          //       );
-          //     },
-          //     icon: Icon(Icons.logout_rounded, size: 28),
-          //   ),
-          // ),
-        ],
       ),
       body: services.when(
         data: (services) {
@@ -152,7 +112,7 @@ class Homepage extends ConsumerWidget {
                                           );
                                         }
                                         : null,
-                                icon: Icon(Icons.delete),
+                                icon: Icon(EvaIcons.trash),
                               ),
                               IconButton(
                                 onPressed:
@@ -227,7 +187,7 @@ class Homepage extends ConsumerWidget {
                                           );
                                         }
                                         : null,
-                                icon: Icon(Icons.edit),
+                                icon: Icon(EvaIcons.edit),
                               ),
                             ],
                           ),
@@ -498,7 +458,7 @@ class Homepage extends ConsumerWidget {
             );
           }
         },
-        child: Icon(Icons.add),
+        child: Icon(EvaIcons.plus),
       ),
     );
   }

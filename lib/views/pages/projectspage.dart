@@ -3,6 +3,7 @@ import 'package:culesprojects/views/pages/webviewpage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_regex/flutter_regex.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:icons_plus/icons_plus.dart';
 
 class Projectspage extends ConsumerWidget {
   const Projectspage({
@@ -117,7 +118,7 @@ class Projectspage extends ConsumerWidget {
                                     );
                                   }
                                   : null,
-                          icon: Icon(Icons.delete, size: 26),
+                          icon: Icon(EvaIcons.trash, size: 26),
                         ),
                       ),
                     ],
@@ -341,7 +342,7 @@ class Projectspage extends ConsumerWidget {
             );
           }
         },
-        child: Icon(Icons.add),
+        child: Icon(EvaIcons.plus),
       ),
     );
   }

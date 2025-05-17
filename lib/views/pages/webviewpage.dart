@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -29,7 +30,7 @@ class WebViewPage extends StatelessWidget {
                 final params = ShareParams(uri: webViewUrl);
                 SharePlus.instance.share(params);
               },
-              icon: Icon(Icons.share),
+              icon: Icon(EvaIcons.share),
             ),
           ),
         ],
