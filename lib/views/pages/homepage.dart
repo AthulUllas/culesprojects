@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_regex/flutter_regex.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 
 class Homepage extends ConsumerWidget {
@@ -320,7 +321,13 @@ class Homepage extends ConsumerWidget {
             ),
           );
         },
-        loading: () => Center(child: CircularProgressIndicator()),
+        loading:
+            () => Center(
+              child: LoadingAnimationWidget.fourRotatingDots(
+                color: colors.primaryColor,
+                size: 55,
+              ),
+            ),
         error: (error, stack) => Center(child: Text("Error : $error")),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -336,169 +343,182 @@ class Homepage extends ConsumerWidget {
                   padding: EdgeInsets.only(
                     bottom: MediaQuery.of(context).viewInsets.bottom,
                   ),
-                  child: SingleChildScrollView(
-                    child: Container(
-                      decoration: BoxDecoration(),
-                      height: MediaQuery.of(context).size.height * 0.4,
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 32.0),
-                            child: Row(
+                  child: SafeArea(
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 24,
+                        ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 32.0),
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 24.0),
+                                    child: Text(
+                                      "Enter your category details",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 24,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Row(
                               children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 24.0),
-                                  child: Text(
-                                    "Enter your category details",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 24,
+                                Expanded(
+                                  child: Container(
+                                    margin: EdgeInsets.all(16),
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: colors.primaryColor,
+                                        width: 0.2,
+                                      ),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: TextField(
+                                      controller:
+                                          addCategoryTextfieldController,
+                                      decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        hintText: "Category name",
+                                        hintStyle: TextStyle(
+                                          color: colors.textFieldHintColor,
+                                        ),
+                                        contentPadding: EdgeInsets.only(
+                                          left: 12,
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
                               ],
                             ),
-                          ),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  margin: EdgeInsets.all(16),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    margin: EdgeInsets.all(16),
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: colors.primaryColor,
+                                        width: 0.2,
+                                      ),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: TextField(
+                                      controller: addProjectTextfieldController,
+                                      decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        hintText: "Project Name",
+                                        hintStyle: TextStyle(
+                                          color: colors.textFieldHintColor,
+                                        ),
+                                        contentPadding: EdgeInsets.only(
+                                          left: 12,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    margin: EdgeInsets.all(16),
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: colors.primaryColor,
+                                        width: 0.2,
+                                      ),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: TextField(
+                                      controller: projectUrlTextfieldController,
+                                      decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        hintText: "Enter your project URL here",
+                                        hintStyle: TextStyle(
+                                          color: colors.textFieldHintColor,
+                                        ),
+                                        contentPadding: EdgeInsets.only(
+                                          left: 12,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
                                   decoration: BoxDecoration(
+                                    color: colors.doneButtonColor,
                                     border: Border.all(
-                                      color: colors.primaryColor,
+                                      color: colors.primaryTextColor,
                                       width: 0.2,
                                     ),
                                     borderRadius: BorderRadius.circular(10),
                                   ),
-                                  child: TextField(
-                                    controller: addCategoryTextfieldController,
-                                    decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                      hintText: "Category name",
-                                      hintStyle: TextStyle(
-                                        color: colors.textFieldHintColor,
-                                      ),
-                                      contentPadding: EdgeInsets.only(left: 12),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  margin: EdgeInsets.all(16),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: colors.primaryColor,
-                                      width: 0.2,
-                                    ),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: TextField(
-                                    controller: addProjectTextfieldController,
-                                    decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                      hintText: "Project Name",
-                                      hintStyle: TextStyle(
-                                        color: colors.textFieldHintColor,
-                                      ),
-                                      contentPadding: EdgeInsets.only(left: 12),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  margin: EdgeInsets.all(16),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: colors.primaryColor,
-                                      width: 0.2,
-                                    ),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: TextField(
-                                    controller: projectUrlTextfieldController,
-                                    decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                      hintText: "Enter your project URL here",
-                                      hintStyle: TextStyle(
-                                        color: colors.textFieldHintColor,
-                                      ),
-                                      contentPadding: EdgeInsets.only(left: 12),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: colors.doneButtonColor,
-                                  border: Border.all(
-                                    color: colors.primaryTextColor,
-                                    width: 0.2,
-                                  ),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: IconButton(
-                                  onPressed: () {
-                                    if (projectUrlTextfieldController.text
-                                        .isUrl()) {
-                                      if (addCategoryTextfieldController
-                                              .text
-                                              .isNotEmpty &&
-                                          addProjectTextfieldController
-                                              .text
-                                              .isNotEmpty &&
-                                          projectUrlTextfieldController
-                                              .text
-                                              .isNotEmpty) {
-                                        ref
-                                            .read(servicesProvider.notifier)
-                                            .addService(
-                                              addCategoryTextfieldController
-                                                  .text,
-                                              [
-                                                {
-                                                  "name":
-                                                      addProjectTextfieldController
-                                                          .text,
-                                                  "url":
-                                                      projectUrlTextfieldController
-                                                          .text,
-                                                },
-                                              ],
-                                            );
-                                        addCategoryTextfieldController.clear();
-                                        Navigator.pop(context);
+                                  child: IconButton(
+                                    onPressed: () {
+                                      if (projectUrlTextfieldController.text
+                                          .isUrl()) {
+                                        if (addCategoryTextfieldController
+                                                .text
+                                                .isNotEmpty &&
+                                            addProjectTextfieldController
+                                                .text
+                                                .isNotEmpty &&
+                                            projectUrlTextfieldController
+                                                .text
+                                                .isNotEmpty) {
+                                          ref
+                                              .read(servicesProvider.notifier)
+                                              .addService(
+                                                addCategoryTextfieldController
+                                                    .text,
+                                                [
+                                                  {
+                                                    "name":
+                                                        addProjectTextfieldController
+                                                            .text,
+                                                    "url":
+                                                        projectUrlTextfieldController
+                                                            .text,
+                                                  },
+                                                ],
+                                              );
+                                          addCategoryTextfieldController
+                                              .clear();
+                                          Navigator.pop(context);
+                                        } else {
+                                          snackBar(
+                                            "Textfield empty !!!",
+                                            context,
+                                          );
+                                        }
                                       } else {
-                                        snackBar(
-                                          "Textfield empty !!!",
-                                          context,
-                                        );
+                                        snackBar("Not a valid URL", context);
                                       }
-                                    } else {
-                                      snackBar("Not a valid URL", context);
-                                    }
-                                  },
-                                  icon: Icon(Icons.done),
+                                    },
+                                    icon: Icon(Icons.done),
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ],
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
