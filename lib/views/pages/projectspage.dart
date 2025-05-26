@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_regex/flutter_regex.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 
 class Projectspage extends ConsumerWidget {
@@ -117,7 +118,13 @@ class Projectspage extends ConsumerWidget {
           );
         },
         error: (error, stack) => Center(child: Text("Text : $error")),
-        loading: () => Center(child: CircularProgressIndicator()),
+        loading:
+            () => Center(
+              child: LoadingAnimationWidget.fourRotatingDots(
+                color: colors.primaryColor,
+                size: 55,
+              ),
+            ),
       ),
 
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
